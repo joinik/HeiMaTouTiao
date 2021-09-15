@@ -5,7 +5,7 @@ module.exports = {
   markdown: {
     lineNumbers: true
   },
-  theme: 'vuepress-theme-default',
+  theme: '@vuepress/theme-default',
   themeConfig: {
     logo: 'https://vuejs.org/images/logo.svg',
     searchMaxSuggestions: 10,
