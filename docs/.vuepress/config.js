@@ -10,10 +10,9 @@ module.exports = {
   themeConfig: {
     logo: 'https://vuejs.org/images/logo.svg',
     searchMaxSuggestions: 10,
-
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Guide', link: '/guide/' },
+      { text: 'Bilibili', link: 'https://space.bilibili.com/36036472' },
       { text: 'GitHub', link: 'https://github.com/VueProjectCourse/HeiMaTouTiao' },
     ],
     sidebar: [

@@ -2,4 +2,4 @@
 
 黑马头条项目
 
-测试Actions
+[项目讲义](https://vueprojectcourse.github.io/HeiMaTouTiao/)
