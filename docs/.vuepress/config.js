@@ -12,7 +12,7 @@ module.exports = {
     logo: 'https://vuejs.org/images/logo.svg',
     searchMaxSuggestions: 10,
     sidebarDepth: 3,
-    sidebar: auto,
+    sidebar: 'auto',
     nav: require('./nav'),
     sidebar: require('./sidebar')
   },
