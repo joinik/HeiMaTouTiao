@@ -2,12 +2,14 @@ module.exports = {
   lang: 'en-US',
   title: '黑马头条',
   description: '黑马头条文档',
+  markdown: {
+    lineNumbers: true
+  },
+  theme: 'vuepress-theme-default',
   themeConfig: {
     logo: 'https://vuejs.org/images/logo.svg',
     searchMaxSuggestions: 10,
-    markdown: {
-      lineNumbers: true
-    },
+
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Guide', link: '/guide/' },
