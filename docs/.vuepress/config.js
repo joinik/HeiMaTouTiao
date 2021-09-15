@@ -1,8 +1,9 @@
 module.exports = {
-  lang: 'en-US',
-  title: '黑马头条',
-  description: '黑马头条文档',
   base: "/HeiMaTouTiao/",
+  lang: 'en-US',
+  head: [
+    ['link', {rel:'icon', type: 'image/png', sizes: '16x16', href: '/images/icons/favicon-16x16.png'}]
+  ],
   markdown: {
     lineNumbers: true
   },
