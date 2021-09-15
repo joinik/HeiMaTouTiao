@@ -9,6 +9,7 @@ module.exports = [
   {
     title: '2.登录功能',
     path: '/login/',
+    sidebarDepth: 3,
     children: [ /* ... */],
     initialOpenGroupIndex: -1 // 可选的, 默认值是 0
   }
