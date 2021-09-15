@@ -12,28 +12,9 @@ module.exports = {
     logo: 'https://vuejs.org/images/logo.svg',
     searchMaxSuggestions: 10,
     sidebarDepth: 3,
-    nav: [
-      { text: 'Home', link: '/' },
-      { text: 'Bilibili', link: 'https://space.bilibili.com/36036472' },
-      { text: 'GitHub', link: 'https://github.com/VueProjectCourse/HeiMaTouTiao' },
-    ],
-    sidebar: [
-      {
-        title: '1.初始化项目',   // 必要的
-        path: '/initial-project/',      // 可选的, 标题的跳转链接，应为绝对路径且必须存在
-        collapsable: false, // 可选的, 默认值是 true,
-        sidebarDepth: 1,    // 可选的, 默认值是 1
-        children: [
-          '/'
-        ]
-      },
-      {
-        title: '2.登录功能',
-        path: '/login/',
-        children: [ /* ... */],
-        initialOpenGroupIndex: -1 // 可选的, 默认值是 0
-      }
-    ]
+    sidebar: auto,
+    nav: require('./nav'),
+    sidebar: require('./sidebar')
   },
   plugins: ['@vuepress/back-to-top']
 }
