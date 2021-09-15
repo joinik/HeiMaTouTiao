@@ -47,6 +47,7 @@ jobs:
       # @see https://github.com/crazy-max/ghaction-github-pages
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@3.7.1
+        # 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
         with:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           # 部署到 gh-pages 分支
