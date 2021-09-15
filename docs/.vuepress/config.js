@@ -6,10 +6,12 @@ module.exports = {
   markdown: {
     lineNumbers: true
   },
+
   theme: '@vuepress/theme-default',
   themeConfig: {
     logo: 'https://vuejs.org/images/logo.svg',
     searchMaxSuggestions: 10,
+    sidebarDepth: 3,
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Bilibili', link: 'https://space.bilibili.com/36036472' },
