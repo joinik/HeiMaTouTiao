@@ -2,6 +2,7 @@ module.exports = {
   lang: 'en-US',
   title: '黑马头条',
   description: '黑马头条文档',
+  base: "/HeiMaTouTiao",
   markdown: {
     lineNumbers: true
   },
