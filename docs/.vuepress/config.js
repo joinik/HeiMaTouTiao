@@ -53,7 +53,7 @@ module.exports = {
     searchMaxSuggestions: 10,
     sidebarDepth: 3,
     sidebar: 'auto',
-    navbar: require('./nav'),
+    nav: require('./nav'),
     sidebar: require('./sidebar')
   },
 

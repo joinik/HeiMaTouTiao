@@ -1,14 +1,9 @@
 ---
 home: true
 title: Home
-heroImage: /images/czxy.png
-actions:
-  - text: 快速上手 →
-    link: /initial-project/
-    type: primary
-  - text: 仓库简介
-    link: /guide/
-    type: secondary
+heroImage: /images/logo.png
+actionText: 快速上手 →
+actionLink: /initial-project/
 features:
   - title: Simplicity First
     details: Minimal setup with markdown-centered project structure helps you focus on writing.
