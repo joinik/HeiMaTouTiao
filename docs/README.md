@@ -1,13 +1,13 @@
 ---
 home: true
 title: Home
-heroImage: /images/logo.png
+heroImage: /images/czxy.png
 actions:
   - text: 快速上手 →
     link: /initial-project/
     type: primary
-  - text: 接口文档
-    link:  https://www.showdoc.com.cn/1289305683568179?page_id=6452917580651891
+  - text: 仓库简介
+    link: /guide/
     type: secondary
 features:
   - title: Simplicity First

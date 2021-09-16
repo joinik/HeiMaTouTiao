@@ -2,7 +2,7 @@ module.exports = {
   base: "/HeiMaTouTiao/",
   lang: 'en-US',
   title: "黑马头条",
-  description: "黑马头条文档及接口文档",
+  description: "黑马头条项目的相关及文档",
   head: [
     [
       'link',
