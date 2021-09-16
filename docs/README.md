@@ -2,14 +2,12 @@
 home: true
 title: Home
 heroImage: /images/logo.png
-heroText: 黑马头条
-tagline: 移动端项目
 actions:
   - text: 快速上手 →
     link: /initial-project/
     type: primary
-  - text: 仓库简介
-    link: /guide/
+  - text: 接口文档
+    link:  https://www.showdoc.com.cn/1289305683568179?page_id=6452917580651891
     type: secondary
 features:
   - title: Simplicity First
@@ -24,5 +22,5 @@ features:
     details: Flexible plugin API, allowing plugins to provide lots of plug-and-play features for your site. 
   - title: Bundlers
     details: Both Webpack and Vite are supported. Choose the one you like!
-footer: MIT Licensed | Copyright © 2018-present YeungWanLum
+footer: MIT Licensed | Copyright © 2018-present 肖恩
 ---
