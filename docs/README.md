@@ -4,8 +4,13 @@ title: Home
 heroImage: /images/logo.png
 heroText: 黑马头条
 tagline: 移动端项目
-actionText: 快速上手 →
-actionLink: /initial-project/
+actions:
+  - text: 快速上手 →
+    link: /initial-project/
+    type: primary
+  - text: 仓库简介
+    link: /guide/
+    type: secondary
 features:
   - title: Simplicity First
     details: Minimal setup with markdown-centered project structure helps you focus on writing.
