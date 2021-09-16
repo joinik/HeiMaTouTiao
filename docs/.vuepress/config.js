@@ -1,8 +1,8 @@
 module.exports = {
-  base: "/bilibiliCourse/",
+  base: "/HeiMaTouTiao/",
   lang: 'en-US',
-  title: "bilibli技术分享",
-  description: "哔哩哔哩分享的相关及文档",
+  title: "黑马头条",
+  description: "黑马头条文档及接口文档",
   head: [
     [
       'link',
@@ -56,6 +56,6 @@ module.exports = {
     navbar: require('./nav'),
     sidebar: require('./sidebar')
   },
-  
+
 }
 
