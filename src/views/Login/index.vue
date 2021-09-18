@@ -43,7 +43,7 @@ export default {
       // 表单的校验规则对象
       rules: {
         // 手机号的校验规则
-        mobile: [{ required: true, message: '请填写您的手机号', trigger: 'onBlur' }],
+        mobile: [{ pattern: /^1\d{10}$/, message: '请填写您的手机号', trigger: 'onBlur' }],
         // 密码的校验规则
         code: [{ required: true, message: '请填写您的密码', trigger: 'onBlur' }]
       }
