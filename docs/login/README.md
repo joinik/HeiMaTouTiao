@@ -328,9 +328,57 @@ methods: {
 
 ### 2.4.5 封装登录的API接口
 
+1. 在 `src` 目录之下，新建 `api`文件夹，并在其下新建`userAPI.js`模块:
+
+```js
+import request from '@/utils/request'
+
+// 登录的 API 接口
+export const loginAPI = data => {
+  return request.post('/v1_0/authorizations', data)
+}
+```
+
 ### 2.4.6 调用登录的API接口
 
+1. 在`Login.vue`组件中，按需导入登录的API接口:
+
+```js
+import { loginAPI } from '@/api/userAPI'
+```
+
+2. 在`<van-form>`组件的`submit`事件处理函数中，调用`loginAPI`接口:
+
+```js
+  async login() {
+    // 只有当表单数据校验通过之后，才会调用此Login函数
+    const res = await loginAPI(this.form)
+    // 当数据请求成功之后，res.data中存储的就是服务器响应回来的数据
+    console.log(res);
+  }
+```
+
 ### 2.4.7 使用结构赋值
+
+1. 可以使用对象的解构赋值，直接从 res 中解构、得到服务器响应回来的数据：
+
+```js
+    methods: {
+    async login() {
+      // 只有当表单数据校验通过之后，才会调用 Login 函数
+      // 只有当表单数据校验通过之后，才会调用此Login函数
+      const res = await loginAPI(this.form)
+      // 当数据请求成功之后，res.data中存储的就是服务器响应回来的数据
+      console.log(res)
+
+      // 判断是否登录成功了
+      if (res.message === 'ok') {
+        // TODO1: 把登录成功的解构，存储到 vuex 中
+        // TODO2: 登录成功后，跳转到主页
+      }
+    }
+  }
+```
 
 ## 2.5 token的存储
 

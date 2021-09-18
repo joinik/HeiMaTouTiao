@@ -28,6 +28,7 @@
 </template>
 
 <script>
+import { loginAPI } from '@/API/userAPI'
 export default {
   // name是当前组件的名称(建议为每个组件都指定唯一的name名称)
   name: 'Login',
@@ -38,7 +39,7 @@ export default {
         // 用户的手机号
         mobile: '13888888123',
         // 登录的密码
-        code: '123456'
+        code: '246810'
       },
       // 表单的校验规则对象
       rules: {
@@ -50,10 +51,18 @@ export default {
     }
   },
   methods: {
-    login () {
+    async login () {
       // 只有当表单数据校验通过之后，才会调用 Login 函数
-      console.log('OK')
-      // TODO: 调用API接口，发起登录的请求
+      // 只有当表单数据校验通过之后，才会调用此Login函数
+      const res = await loginAPI(this.form)
+      // 当数据请求成功之后，res.data中存储的就是服务器响应回来的数据
+      console.log(res)
+
+      // 判断是否登录成功了
+      if (res.message === 'ok') {
+        // TODO1: 把登录成功的解构，存储到 vuex 中
+        // TODO2: 登录成功后，跳转到主页
+      }
     }
   }
 }
