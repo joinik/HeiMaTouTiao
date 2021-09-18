@@ -2,13 +2,32 @@
   <div class="login">
     <!-- NavBar 组件：只需提供 title 标题 -->
     <van-nav-bar title="黑马头条 - 登录" fixed />
+    <!-- 登录的表单 -->
+    <van-form>
+      <van-field v-model="form.mobile" type="tel" label="手机号码" placeholder="请输入手机号码" required></van-field>
+      <van-field v-model="form.code" type="password" label="登录密码" placeholder="请输入登录密码" required></van-field>
+      <div style="margin: 16px;">
+        <van-button round block type="info" native-type="submit">提交</van-button>
+      </div>
+    </van-form>
   </div>
 </template>
 
 <script>
 export default {
   // name是当前组件的名称(建议为每个组件都指定唯一的name名称)
-  name: 'Login'
+  name: 'Login',
+  data () {
+    return {
+      // 登录表单的数据，最终要双向绑定到 form 这个数据对象上
+      form: {
+        // 用户的手机号
+        mobile: '',
+        // 登录的密码
+        code: ''
+      }
+    }
+  }
 }
 </script>
 
