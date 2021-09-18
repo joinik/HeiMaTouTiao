@@ -307,6 +307,25 @@ mobile: [
 
 ### 2.4.4 监听表单的提交事件
 
+1. 为`<van-form>`组件绑定`submit`事件处理函数：
+
+```html
+<!-- 登录的表单 -->
+<van-form @submit="login"></van-form>
+```
+
+2. 在`Login.vue`组件中的methods节点声明`login`事件处理函数
+
+```js
+methods: {
+  login() {
+    // 只有当表单数据校验通过之后，才会调用此 login 函数
+    console.log('ok')
+    // TODO：调用 API 接口，发起登录的请求
+  }
+}
+```
+
 ### 2.4.5 封装登录的API接口
 
 ### 2.4.6 调用登录的API接口

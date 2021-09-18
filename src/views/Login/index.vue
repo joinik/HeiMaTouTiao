@@ -3,7 +3,7 @@
     <!-- NavBar 组件：只需提供 title 标题 -->
     <van-nav-bar title="黑马头条 - 登录" fixed />
     <!-- 登录的表单 -->
-    <van-form>
+    <van-form @submit="login">
       <van-field
         v-model="form.mobile"
         type="tel"
@@ -47,6 +47,13 @@ export default {
         // 密码的校验规则
         code: [{ required: true, message: '请填写您的密码', trigger: 'onBlur' }]
       }
+    }
+  },
+  methods: {
+    login () {
+      // 只有当表单数据校验通过之后，才会调用 Login 函数
+      console.log('OK')
+      // TODO: 调用API接口，发起登录的请求
     }
   }
 }
