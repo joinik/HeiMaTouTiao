@@ -437,7 +437,29 @@ export default {
 }
 ```
 
-### 2.4.2 持久化存储state
+### 2.5.2 持久化存储state
+
+1. 在`mutations`节点下，定义名为`saveStateStorage` 的 Mutation函数，专门用来把state数据持久化存储到localStorage中:
+
+```js
+// 将 state 持久化存储到本地
+saveStateToStorage(state) {
+  localStorage.setItem('state', JSON.stringify(state))
+}
+```
+
+2. 今后， 只要`tokenInfo`对象被更新了，就可以调用`saveStateStorage`方法，把最新的state持久化存储到本地
+
+```js
+// 更新 tokenInfo 数据的方法
+updateTokenInfo(state, payload) {
+  state.tokenInfo = payload
+
+  // 如果希望在 Mutation A 中调用 Mutation B，需要通过 this.commit() 方法来实现
+  // this 表示当前的 new 出来的 store 实例对象
+  this.commit('saveStateToStorage')
+}
+```
 
 ### 2.5.3 初始化vuex时加载本地的state
 

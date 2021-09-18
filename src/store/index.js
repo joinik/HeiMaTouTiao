@@ -15,6 +15,13 @@ export default new Vuex.Store({
       state.tokenInfo = payload
       // 测试 state 中是否有数据
       console.log(state)
+      // 如果希望在 Mutation A 中 调用 Mutation B，需要通过 this.commit() 方法来实现
+      // this 表示当前的new 出阿里的store实例对象
+      this.commit('saveStateToStorage')
+    },
+    // 将 state 持久化存储到本地
+    saveStateToStorage (state) {
+      localStorage.setItem('state', JSON.stringify(state))
     }
   },
   actions: {
