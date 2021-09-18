@@ -3,11 +3,18 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
+const stateStr = localStorage.getItem('state')
+// 初始的 state 对象
+const initState = {
+  tokenInfo: {}
+}
+if (stateStr) {
+  // 加载本地的数据
+  initState.tokenInfo = JSON.parse(stateStr)
+}
+
 export default new Vuex.Store({
-  state: {
-    // 用来存储token信息的对象，将来这个对象中会包含两个属性 {token, refresh_token}
-    tokenInfo: {}
-  },
+  state: initState,
   mutations: {
     // 更新 tokenInfo 数据的方法
     updateTokenInfo (state, payload) {

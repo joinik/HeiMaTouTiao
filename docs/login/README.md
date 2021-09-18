@@ -468,6 +468,53 @@ updateTokenInfo(state, payload) {
 
 ### 2.5.3 初始化vuex时加载本地的state
 
+::: tip
+ 当 new Vuex.Store()时，需要读取localStorage中的数据，将读取的结果作为state的初始值
+:::
+
+1. 定义初始的 state 对象， 命名为 `initState`:
+
+```js
+// 初始的 state 对象
+let initState = {
+  // token 的信息对象
+  tokenInfo: {}
+}
+```
+
+2. 把 `initState` 对象作为 `new Vuex.Store()` 时候的state初始值：
+
+```js
+export default new Vuex.Store({
+  // 为 state 赋初值
+  state: initState
+
+  // 省略其它代码...
+})
+```
+
+3. 在 `new Vuex.Store()`之前， 读取localStorage中本地存储的state字符串
+
+```js
+const stateStr = localStorage.getItem('state')
+```
+
+4. 如果 `stateStr`的值存在， 则证明本地存储中有之前存储的state数据，需要转换后赋值给`initState`:
+
+```js
+if (stateStr) {
+  // 加载本地的数据
+  initState = JSON.parse(stateStr)
+}
+
+export default new Vuex.Store({
+  // 为 state 赋初值
+  state: initState
+
+  // 省略其它代码...
+})
+```
+
 ## 2.6 axios拦截器
 
 ## 2.7 分支的提交和合并
