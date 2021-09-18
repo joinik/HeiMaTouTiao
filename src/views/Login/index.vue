@@ -29,6 +29,8 @@
 
 <script>
 import { loginAPI } from '@/API/userAPI'
+// 1.按需导入辅助方法
+import { mapMutations } from 'vuex'
 export default {
   // name是当前组件的名称(建议为每个组件都指定唯一的name名称)
   name: 'Login',
@@ -51,17 +53,21 @@ export default {
     }
   },
   methods: {
+    // 2.映射 mutations 中方法
+    ...mapMutations(['updateTokenInfo']),
     async login () {
       // 只有当表单数据校验通过之后，才会调用 Login 函数
       // 只有当表单数据校验通过之后，才会调用此Login函数
-      const res = await loginAPI(this.form)
+      const { data: res } = await loginAPI(this.form)
       // 当数据请求成功之后，res.data中存储的就是服务器响应回来的数据
-      console.log(res)
+      // console.log(res)
 
       // 判断是否登录成功了
-      if (res.message === 'ok') {
-        // TODO1: 把登录成功的解构，存储到 vuex 中
-        // TODO2: 登录成功后，跳转到主页
+      if (res.message === 'OK') {
+        // 3.把登录成功的解构，存储到 vuex 中
+        this.updateTokenInfo(res.data)
+        // 4. 登录成功后，跳转到主页
+        this.$router.push('/')
       }
     }
   }
