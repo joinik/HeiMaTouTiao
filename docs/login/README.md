@@ -537,8 +537,126 @@ export default new Vuex.Store({
 
 ### 2.6.3 axios拦截器的分类
 
+axios 拦截器分为请求拦截器和响应拦截器。顾名思义，请求拦截器会在每次发起请求的时候被触发；响应拦截器会在每次得到响应之后被触发。
+
+1. 定义**请求拦截器**的固定写法：
+
+```js
+// 添加请求拦截器
+axios.interceptors.request.use(
+  function(config) {
+    // 在发送请求之前做些什么
+    return config
+  },
+  function(error) {
+    // 对请求错误做些什么
+    return Promise.reject(error)
+  }
+)
+```
+
+2. 定义**响应拦截器**的固定写法：
+
+```js
+// 添加响应拦截器
+axios.interceptors.response.use(
+  function(response) {
+    // 对响应数据做点什么
+    return response
+  },
+  function(error) {
+    // 对响应错误做点什么
+    return Promise.reject(error)
+  }
+)
+```
+
 ### 2.6.4 基于拦截器实现loading效果
+
+::: tip
+基于 Vant 的 [Toast 轻提示](https://vant-contrib.gitee.io/vant/#/zh-CN/toast) 组件，可以方便的展示 loading 效果
+:::
+
+1. 在`src/utils/request.js`模块中，从`vant`中按需导入`Toast`组件：
+
+```js
+import { Toast } from 'vant'
+```
+
+2. 在请求拦截器中，展示loading提示效果：
+
+```js
+// 请求拦截器
+// 注意：在我们的项目中，是基于 instance 实例来发起 ajax 请求的，
+// 因此一定要为 instance 实例绑定请求拦截器
+instance.interceptors.request.use(
+  config => {
+    // 展示 loading 效果
+    Toast.loading({
+      message: '加载中...', // 文本内容
+      duration: 0 // 展示时长(ms)，值为 0 时，toast 不会消失
+    })
+    return config
+  },
+  error => {
+    return Promise.reject(error)
+  }
+)
+```
+
+3. 在响应拦截器中，隐藏loading提示效果：
+
+```js
+// 响应拦截器（注意：响应拦截器也应该绑定给 instance 实例）
+instance.interceptors.response.use(
+  response => {
+    // 隐藏 loading 效果
+    Toast.clear()
+    return response
+  },
+  error => {
+    return Promise.reject(error)
+  }
+)
+```
 
 ### 2.6.5 基于拦截器添加token认证
 
+1. 在`request.js`模块中导入vuex的模块
+2. 在请求拦截器中，从`store.state`中获取到`tokenInfo`对象上的`token`值：
+3. 如果`tokenStr`的值不为空，则为这次请求的请求头添加`Authorization`身份认证字段：
+
 ## 2.7 分支的提交和合并
+
+1. 将修改过后的文件加入暂存区，并进行本地的 commit 提交：
+
+```bash
+git add .
+git commit -m "实现了登录功能"
+```
+
+2. 将本地的 login 分支首次推送到 Gitee 仓库中：
+
+```bash
+git push -u origin login
+```
+
+3. 将本地的 login 分支合并到本地的 master 主分支，并推送 master 分支到 Gitee 仓库：
+
+```bash
+git checkout master
+git merge login
+git push
+```
+
+4. 删除本地的 login 子分支：
+
+```bash
+git branch -d login
+```
+
+5. 基于 master 主分支，新建 home 分支，准备开发主页布局相关的功能：
+
+```bash
+git checkout -b home
+```
