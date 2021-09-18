@@ -261,6 +261,34 @@ export default {
 
 ### 2.4.2 添加非空校验规则
 
+1. 在`Login.vue`组件的data中声明**登录表单的校验规则对象**，里面包含了**手机号**和**密码**的校验规则:
+
+```js
+data() {
+  return {
+    // 表单的校验规则对象
+    rules: {
+      // 手机号的校验规则
+      mobile: [{ required: true, message: '请填写您的手机号', trigger: 'onBlur' }],
+      // 密码的校验规则
+      code: [{ required: true, message: '请填写您的密码', trigger: 'onBlur' }]
+    }
+  }
+}
+```
+
+2. 在`Login.vue`组件的模板结构中，为每个`<van-field>`组件应用对应的校验规则:
+
+```html
+<!-- 手机号的表单项 -->
+<van-field type="tel" v-model="form.mobile" label="手机号码" placeholder="请输入手机号码" required :rules="rules.mobile">
+</van-field>
+
+<!-- 登录密码的表单项 -->
+<van-field type="password" v-model="form.code" label="登录密码" placeholder="请输入登录密码" required :rules="rules.code">
+</van-field>
+```
+
 ### 2.4.3 通过pattern进行正则校验
 
 ### 2.4.4 监听表单的提交事件
