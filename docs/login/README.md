@@ -517,4 +517,23 @@ export default new Vuex.Store({
 
 ## 2.6 axios拦截器
 
+> [中文官方文档地址:http://www.axios-js.com/zh-cn/docs/#拦截器](http://www.axios-js.com/zh-cn/docs/#%E6%8B%A6%E6%88%AA%E5%99%A8)
+
+### 2.6.1 什么是axios拦截器
+
+**拦截器**(英文: Interceptors)会在**每次发起ajax请求和得到响应**的时候自动触发。
+
+![img](./images/2-1.1ce0958b.png).
+
+1. 在组件中发起请求的时候，会触发axios**的请求拦截器**。
+2. 当API接口服务器响应回来数据以后，会触发axios**的响应拦截器**。
+
+### 2.6.2 拦截器的好处
+
+### 2.6.3 axios拦截器的分类
+
+### 2.6.4 基于拦截器实现loading效果
+
+### 2.6.5 基于拦截器添加token认证
+
 ## 2.7 分支的提交和合并
