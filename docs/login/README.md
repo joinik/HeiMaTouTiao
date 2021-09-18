@@ -439,6 +439,11 @@ export default {
 
 ### 2.5.2 持久化存储state
 
+::: tip
+存储在 vuex 中的数据都是内存数据，只要浏览器一刷新，vuex 的数据就被清空了。
+为了防止这个问题，我们可以把 vuex 中的数据持久化存储到浏览器的 localStorage 中。
+:::
+
 1. 在`mutations`节点下，定义名为`saveStateStorage` 的 Mutation函数，专门用来把state数据持久化存储到localStorage中:
 
 ```js
