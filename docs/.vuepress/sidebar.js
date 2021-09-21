@@ -13,7 +13,7 @@ module.exports = [
     children: [ /* ... */],
   },
   {
-    title: '3.登录功能',
+    title: '3.主页布局',
     path: '/main-layout/',
     sidebarDepth: 3,
     children: [ /* ... */],
