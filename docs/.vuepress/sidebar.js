@@ -11,6 +11,11 @@ module.exports = [
     path: '/login/',
     sidebarDepth: 3,
     children: [ /* ... */],
-    initialOpenGroupIndex: -1 // 可选的, 默认值是 0
+  },
+  {
+    title: '3.登录功能',
+    path: '/main-layout/',
+    sidebarDepth: 3,
+    children: [ /* ... */],
   }
 ]
