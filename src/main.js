@@ -8,7 +8,7 @@ import store from './store'
 // 优点: 所有vant组件都进行了全局的注册。在每个组件中，不再需要按需引入并注册组件了
 // 缺点: 项目中没有用到的组件也会被打包进来，导致打包体积过大的问题(此问题在项目发布时，可通过cdn加速解决)
 import Vant from 'vant'
-import 'vant/lib/index.css'
+import 'vant/lib/index.less'
 // #endregion
 
 // #region 配置 amfe-flexible

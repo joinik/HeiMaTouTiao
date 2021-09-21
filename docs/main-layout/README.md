@@ -132,7 +132,8 @@ export default {
 ```js
 import Home from '@/views/Home/Home.vue'
 import User from '@/views/User/User.vue'
-``
+```
+
 5. 在`routes`路由规则数组中，找到`主页Main.vue`对应的路由规则，遇到`children`数组声明嵌套的子路由规则：
 
 ```js
@@ -166,4 +167,118 @@ const routes = [
     </van-tabbar>
   </div>
 </template>
+```
+
+## 3.4 渲染频道列表的基本结构
+
+> 基于 Vant 的[Tab标签页](https://vant-contrib.gitee.io/vant/#/zh-CN/tab)组件，可以方便的渲染出频道列表的基本结构。
+
+### 3.4.1 实现频道列表的基础布局
+
+1. 在`/src/views/Home/Home.vue`组件的模板结构中，声明如下的DOM结构
+
+```vue
+<!-- 频道列表的标签页 -->
+<van-tabs v-model="active">
+  <van-tab title="标签 1">内容 1</van-tab>
+  <van-tab title="标签 2">内容 2</van-tab>
+  <van-tab title="标签 3">内容 3</van-tab>
+  <van-tab title="标签 4">内容 4</van-tab>
+  <van-tab title="标签 5">内容 5</van-tab>
+  <van-tab title="标签 6">内容 6</van-tab>
+  <van-tab title="标签 7">内容 7</van-tab>
+  <van-tab title="标签 8">内容 8</van-tab>
+</van-tabs>
+```
+
+2. 在`Home.vue`组件的data中，声明标签页激活项的索引`active`：
+
+```js
+export default {
+  name: 'Home',
+  data() {
+    return {
+      // 标签页激活项的索引
+      active: 0
+    }
+  }
+}
+```
+
+3. 在`/src/cover.less`中，通过主题定制的方式，修改激活项的颜色值：
+
+```js
+// Tab
+@tabs-bottom-bar-color: @blue;
+```
+
+### 3.4.2 实现频道列表的吸顶效果
+
+1. 为 `<van-tabs>` 组件添加 `sticky `属性，即可在页面纵向滚动时，实现频道列表的吸顶效果：
+
+```vue
+<van-tabs v-model="active" sticky>
+  <!-- 省略其它代码 -->
+</van-tabs>
+```
+
+2. 为 `<van-tabs>` 组件添加 `offset-top` 属性，即可设置吸顶的距离：
+
+```vue
+<van-tabs v-model="active" sticky offset-top="46px">
+  <!-- 省略其它代码 -->
+</van-tabs>
+```
+
+3. 通过翻阅 van-tabs 组件的官方文档，发现 `offset-top` 属性值还支持 rem 的单位。因此，我们可以把 46px 换算成 rem 之后，赋值给` offset-top`。换算的过程如下：
+
+```text
+iphone6
+
+375 px = 10 rem
+1   px = 10/375  rem
+46  px = 460/375 rem
+46  px ≈ 1.22666667rem
+```
+
+4. 经过换算之后，最终只需将 `offset-top` 的值设置为 1.22666667rem 即可实现不同屏幕的适配：
+
+```vue
+<van-tabs v-model="active" sticky offset-top="1.22666667rem">
+  <!-- 省略其它代码 -->
+</van-tabs>
+```
+
+### 3.4.3 渲染频道管理的小图标
+
+1. 审查元素的样式，为 tabs 容器设置右 padding，预留出频道管理小图标的位置：
+
+```css
+// 为 tabs 容器设置右 padding
+/deep/ .van-tabs__wrap {
+  padding-right: 36px;
+  background-color: white;
+}
+```
+
+2. 和 `<van-tabs>` 平级，渲染频道管理的 `<van-icon>` 图标：
+
+```vue
+<!-- 频道列表的标签页 -->
+<van-tabs v-model="active" sticky offset-top="1.22666667rem"></van-tabs>
+
+<!-- 频道管理的小图标 -->
+<van-icon name="plus" size="16" class="plus" />
+```
+
+3. 通过自定义的 plus 类名，设置小图标的定位：
+
+```css
+// 频道管理小图标的定位
+.plus {
+  position: fixed;
+  top: 58px;
+  right: 10px;
+  z-index: 999;
+}
 ```
