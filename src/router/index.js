@@ -3,6 +3,8 @@ import VueRouter from 'vue-router'
 
 import Login from '@/views/Login'
 import Main from '@/views/Main'
+import Home from '@/views/Home'
+import User from '@/views/User'
 
 Vue.use(VueRouter)
 
@@ -17,7 +19,12 @@ const routes = [
   {
     path: '/',
     component: Main,
-    name: 'main'
+    // name: 'main',
+    children: [
+      // path 为"空字符串"的子路由规则，叫做"默认子路由"
+      { path: '', component: Home, name: 'home' },
+      { path: '/user', component: User, name: 'user' }
+    ]
   }
 ]
 
