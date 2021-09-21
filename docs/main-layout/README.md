@@ -358,3 +358,38 @@ created() {
   <van-tab v-for="item in userChannel" :key="item.id" :title="item.name">{{item.name}}</van-tab>
 </van-tabs>
 ```
+
+## 3.6 分支的合并与提交
+
+1. 将修改过后的文件加入暂存区，并进行本地的 `commit` 提交：
+
+```bash
+git add .
+git commit -m "实现了主页的布局"
+```
+
+2. 将本地的 `home` 分支首次推送到 Gitee 仓库中：
+
+```bash
+git push -u origin home
+```
+
+3. 将本地的 `home `分支合并到本地的 `master` 主分支，并推送 `master` 分支到 Gitee 仓库：
+
+```bash
+git checkout master
+git merge home
+git push
+```
+
+4. 删除本地的 `home` 子分支
+
+```bash
+git branch -d home
+```
+
+5. 基于 `master` 主分支，新建 `artlist` 分支，准备开发文章列表相关的功能：
+
+```bash
+git checkout -b artlist
+```
