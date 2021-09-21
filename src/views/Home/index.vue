@@ -13,14 +13,8 @@
     </van-nav-bar>
     <!-- 频道列表的标签页 -->
     <van-tabs v-model="active" sticky offset-top="1.22666667rem">
-      <van-tab title="标签 1">内容 1</van-tab>
-      <van-tab title="标签 2">内容 2</van-tab>
-      <van-tab title="标签 3">内容 3</van-tab>
-      <van-tab title="标签 4">内容 4</van-tab>
-      <van-tab title="标签 5">内容 5</van-tab>
-      <van-tab title="标签 6">内容 6</van-tab>
-      <van-tab title="标签 7">内容 7</van-tab>
-      <van-tab title="标签 8">内容 8</van-tab>
+      <!-- 循环渲染用户的频道 -->
+      <van-tab v-for="item in userChannel" :key="item.id" :title="item.name">{{ item.name }}</van-tab>
     </van-tabs>
     <!-- 频道管理的小图标 -->
     <van-icon name="plus" size="16" class="plus" />
@@ -28,13 +22,34 @@
 </template>
 
 <script>
+// 按需导入 API 接口
+import { getUserChannelAPI } from '@/API/homeAPI'
 export default {
   name: 'Home',
   data () {
     return {
       // 标签页激活项的索引
-      active: 0
+      active: 0,
+      // 用户的频道列表数组
+      userChannel: []
     }
+  },
+  methods: {
+    async initUserChannel () {
+      console.log(111)
+      // 1. 调用 API 接口
+      const { data: res } = await getUserChannelAPI()
+      console.log(res)
+      // 2. 判断请求是否成功
+      if (res.message === 'OK') {
+        // 3. 为用户的频道列表赋值
+        this.userChannel = res.data.channels
+      }
+    }
+
+  },
+  created () {
+    this.initUserChannel()
   }
 }
 </script>
@@ -56,7 +71,7 @@ export default {
 }
 
 /* 为 tabs 容器设置右 padding */
-/deep/ .van-tabs__wrap  {
+/deep/ .van-tabs__wrap {
   padding-right: 36px;
   background-color: white;
 }

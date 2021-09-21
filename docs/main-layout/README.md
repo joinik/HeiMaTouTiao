@@ -282,3 +282,79 @@ iphone6
   z-index: 999;
 }
 ```
+
+## 3.5 获取频道列表的数据
+
+### 3.5.1 定义获取频道数据的API数据
+
+1. 在 `/src/api/`目录下新建 `homeAPI.js` 模块，并导入 `/src/utils` 目录下的 `request.js` 模块：
+
+```js
+// 导入请求数据的 request 模块
+import request from '@/utils/request'
+```
+
+2. 在 `homeAPI.js` 模块中，新建请求用户频道列表数据的 API 接口：
+
+```js
+// 请求用户频道列表数据的 API
+export const getUserChannelAPI = () => {
+  return request.get('/v1_0/user/channels')
+}
+```
+
+### 3.5.2 调用接口请求频道列表的数据
+
+1. 在 `/src/views/Home/Home.vue`组件中，按需导入 `/src/api/homeAPI.js` 中的 `getUserChannelAPI` 接口：
+
+```js
+// 按需导入 API 接口
+import { getUserChannelAPI } from '@/api/homeAPI'
+```
+
+2. 在 `Home.vue` 组件的 `data` 中声明 `userChannel` 数组，用来存储用户的频道列表数据：
+
+```js
+data() {
+  return {
+    // 用户的频道列表数组
+    userChannel: []
+  }
+}
+```
+
+3. 在 `Home.vue` 组件的 `methods` 中，声明 `initUserChannel` 方法，用来初始化用户的频道列表数据：
+
+```js
+methods: {
+  async initUserChannel() {
+    // 1. 调用 API 接口
+    const { data: res } = await getUserChannelAPI()
+    // 2. 判断请求是否成功
+    if (res.message === 'OK') {
+      // 3. 为用户的频道列表赋值
+      this.userChannel = res.data.channels
+    }
+  }
+}
+```
+
+4. 在 `Home.vue` 组件的 `created` 生命周期函数中，调用 `initUserChannel` 方法请求用户的频道列表数据：
+
+```js
+created() {
+  this.initUserChannel()
+},
+```
+
+### 3.5.3 循环渲染用户的频道列表
+
+1. 在 Home.vue 组件的模板结构中，通过 v-for 指令，循环渲染用户的频道列表数据：
+
+```vue
+<!-- 频道列表的标签页 -->
+<van-tabs v-model="active" sticky offset-top="1.22666667rem">
+  <!-- 循环渲染用户的频道 -->
+  <van-tab v-for="item in userChannel" :key="item.id" :title="item.name">{{item.name}}</van-tab>
+</van-tabs>
+```
