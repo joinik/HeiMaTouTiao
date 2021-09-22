@@ -1,6 +1,6 @@
 <template>
   <div class="article-list">
-    <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+    <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad" :immediate-check="false">
       <!-- 循环渲染文章的列表 -->
       <article-item v-for="item in artlist" :key="item.art_id" :article="item"></article-item>
     </van-list>

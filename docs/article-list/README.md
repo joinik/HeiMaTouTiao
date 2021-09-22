@@ -335,6 +335,20 @@ methods: {
 
 ### 4.5.2 防止首次加载时触发 load 事件
 
+1. 在浏览器中经过测试，发现：<van-list>组件首次加载的时候，会自动触发一次 @load 事件。
+2. 经过翻阅 Vant 的官方文档，发现可以为 <van-list> 组件绑定 :immediate-check="false" 属性，即可防止首次加载时触发 load 事件：
+
+```vue
+<template>
+  <div>
+    <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad" :immediate-check="false">
+      <!-- 循环渲染文章的列表 -->
+      <art-item v-for="item in artlist" :key="item.art_id" :article="item"></art-item>
+    </van-list>
+  </div>
+</template>
+```
+
 ### 4.5.3 实现上拉加载更多
 
 ## 4.6 下拉刷新
