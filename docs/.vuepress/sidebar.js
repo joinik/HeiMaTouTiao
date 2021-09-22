@@ -23,5 +23,11 @@ module.exports = [
     path: '/article-list/',
     sidebarDepth: 3,
     children: [ /* ... */],
+  }, 
+  {
+    title: '5.反馈操作',
+    path: '/feedback-operation/',
+    sidebarDepth: 3,
+    children: [ /* ... */],
   }
 ]

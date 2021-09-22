@@ -25,10 +25,15 @@
         <div class="label-box">
           <span>{{ article.aut_name }} &nbsp;&nbsp; {{ article.comm_count }}评论 &nbsp;&nbsp; {{ article.pubdate | dateFormat }}</span>
           <!-- 关闭按钮 -->
-          <van-icon name="cross" />
+          <van-icon name="cross" @click.stop="show = true" />
         </div>
       </template>
     </van-cell>
+
+    <!-- 反馈的动作面板 -->
+    <van-action-sheet v-model="show" cancel-text="取消" :closeable="false">
+      <div class="content">内容</div>
+    </van-action-sheet>
   </div>
 </template>
 
@@ -40,6 +45,12 @@ export default {
     article: {
       type: Object, // 数据类型
       required: true // 必填项
+    }
+  },
+  data () {
+    return {
+      // 是否展示反馈面板
+      show: false
     }
   }
 }
