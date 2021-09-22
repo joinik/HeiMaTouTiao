@@ -31,8 +31,9 @@
     </van-cell>
 
     <!-- 反馈的动作面板 -->
-    <van-action-sheet v-model="show" cancel-text="取消" :closeable="false">
-      <div class="content">
+    <van-action-sheet v-model="show" cancel-text="取消" :closeable="false" @closed="isFirst = true">
+      <!-- 第一级反馈面板 -->
+      <div class="content" v-if="isFirst">
         <van-cell
           :title="item.name"
           clickable
@@ -41,6 +42,10 @@
           :key="item.name"
           @click="onCellClick(item.name)"
         />
+      </div>
+      <!-- 第二级反馈面板 -->
+      <div v-else>
+        <van-cell title="返回" clickable title-class="center-title" @click="isFirst = true" />
       </div>
     </van-action-sheet>
   </div>
@@ -65,7 +70,9 @@ export default {
         { name: '不感兴趣' },
         { name: '反馈垃圾内容' },
         { name: '拉黑作者' }
-      ]
+      ],
+      // 是否展示第一个反馈面板
+      isFirst: true
     }
   },
   methods: {
@@ -79,6 +86,7 @@ export default {
         this.show = false
       } else if (name === '反馈垃圾内容') {
         // TODO：展示二级反馈面板
+        this.isFirst = false
       }
     }
   }

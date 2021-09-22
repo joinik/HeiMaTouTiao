@@ -118,3 +118,74 @@ methods: {
   }
 }
 ```
+
+## 5.4 渲染二级反馈面板的结构
+
+1. 在 `ArtItem.vue` 组件的反馈动作面板中，声明如下的二级反馈面板：
+
+```vue
+<!-- 反馈的动作面板 -->
+<van-action-sheet v-model="show" cancel-text="取消" :closeable="false">
+  <!-- 第一级反馈面板 -->
+  <div>
+    <van-cell :title="item.name" clickable class="center-title" v-for="item in actions" :key="item.name" @click="onCellClick(item.name)" />
+  </div>
+  <!-- 第二级反馈面板 -->
+  <div>
+    <van-cell title="返回" clickable title-class="center-title" />
+  </div>
+</van-action-sheet>
+```
+
+2. 在 `ArtItem.vue` 组件的 data 节点下，定义名为 `isFirst` 的布尔值，用来控制是否展示第一个面板：
+
+```js
+data() {
+  // 省略其它数据项...
+
+  // 是否展示第一个反馈面板
+  isFirst: true
+}
+```
+
+3. 在 `ArtItem.vue` 组件中的反馈动作面板中，结合 `v-if` 与 `v-else` 指令，按需展示对应的反馈面板：
+
+```vue
+<van-action-sheet v-model="show" cancel-text="取消" :closeable="false">
+  <!-- 第一级反馈面板 -->
+  <div v-if="isFirst">
+    <van-cell :title="item.name" clickable class="center-title" v-for="item in actions" :key="item.name" @click="onCellClick(item.name)" />
+  </div>
+  <!-- 第二级反馈面板 -->
+  <div v-else>
+    <van-cell title="返回" clickable title-class="center-title" />
+  </div>
+</van-action-sheet>
+```
+
+4. 点击一级反馈面板中的反馈垃圾内容选项时，将 `isFirst` 设置为 `false`，从而展示二级反馈面板：
+
+```js
+else if (name === '反馈垃圾内容') {
+  // TODO：展示二级反馈面板
+  this.isFirst = false
+}
+```
+
+5. 当点击二级反馈面板中的返回时，将 `isFirst` 设置为 `true`，从而展示一级反馈面板：
+
+```vue
+<!-- 第二级反馈面板 -->
+<div v-else>
+  <van-cell title="返回" clickable title-class="center-title" @click="isFirst = true" />
+</div>
+```
+
+6. 监听 `<van-action-sheet>` 的 `@closed` 事件，当动作面板完全关闭且结束动画以后，将 `isFirst` 设置为 `true`。保证下次打开动作面板时，默认展示第一个反馈面板：
+
+```vue
+<!-- 反馈的动作面板 -->
+<van-action-sheet v-model="show" cancel-text="取消" :closeable="false" @closed="isFirst = true">
+  <!-- 省略其它代码 -->
+</van-action-sheet>
+```
