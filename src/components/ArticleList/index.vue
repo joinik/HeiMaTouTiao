@@ -10,7 +10,12 @@
         :immediate-check="false"
       >
         <!-- 循环渲染文章的列表 -->
-        <article-item v-for="item in artlist" :key="item.art_id" :article="item"></article-item>
+        <article-item
+          v-for="item in artlist"
+          :key="item.art_id"
+          :article="item"
+          @remove-article="removeArticle"
+        ></article-item>
       </van-list>
     </van-pull-refresh>
   </div>
@@ -91,6 +96,12 @@ export default {
     // 下拉刷新
     onRefresh () {
       this.initArtList(true)
+    },
+    // 从文章列表中移除指定 id 的文章
+    removeArticle (id) {
+      // console.log(id)
+      // 对原数组进行 filter 方法的过滤
+      this.artlist = this.artlist.filter(item => item.art_id.toString() !== id)
     }
   },
   created () {

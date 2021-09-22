@@ -336,3 +336,55 @@ async onCellClick(name) {
   // 省略其它代码...
 }
 ```
+
+## 5.8 从列表中移除不感兴趣的文章
+
+1. 在 `ArtItem.vue` 组件中，通过 `this.$emit()` 触发自定义事件，把要删除的文章 Id 传递给父组件：
+
+```js
+// 一级选项的点击事件处理函数
+async onCellClick(name) {
+  if (name === '不感兴趣') {
+    // 调用 API 接口，将文章设置为不感兴趣
+    const { data: res } = await dislikeArticleAPI(this.artId)
+    if (res.message === 'OK') {
+      // TODO：炸楼的操作，触发自定义的事件，将文章 id 发送给父组件
+      this.$emit('remove-article', this.artId)
+    }
+    this.show = false
+  }
+
+  // 省略其它代码...
+}
+```
+
+2. 在 `ArtList.vue` 组件中使用 `ArtItem.vue` 组件时，监听 `ArtItem.vue` 组件的 `@remove-article` 事件：
+
+```vue
+<!-- 循环渲染文章的列表 -->
+<art-item
+   v-for="item in artlist"
+   :key="item.art_id.toString()"
+   :article="item"
+   @remove-article="removeArticle"
+  >
+</art-item>
+```
+
+3. 在 `ArtList.vue` 组件的 methods 中，声明 `removeArticle` 方法如下：
+
+```js
+methods: {
+  // 从文章列表中移除指定 id 的文章
+  removeArticle(id) {
+    // 对原数组进行 filter 方法的过滤
+    this.artlist = this.artlist.filter(item => item.art_id.toString() !== id)
+ }
+}
+```
+
+## 5.9 炸楼之后防止上拉加载不生效
+
+## 5.10 实现举报文章的功能
+
+## 5.11 分支的合并与提交

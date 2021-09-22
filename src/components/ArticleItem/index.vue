@@ -99,9 +99,11 @@ export default {
     async onCellClick (name) {
       if (name === '不感兴趣') {
         // 调用 API 接口，将文章设置为不感兴趣
+        console.log('收到的id', this.artId)
         const { data: res } = await dislikeArticleAPI(this.artId)
         if (res.message === 'OK') {
-          // TODO：炸楼的操作
+          // TODO：炸楼的操作，触发自定义的事件，将文章 id 发送给父组件
+          this.$emit('remove-article', this.artId)
         }
         this.show = false
       } else if (name === '拉黑作者') {
