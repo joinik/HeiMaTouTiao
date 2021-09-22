@@ -530,6 +530,121 @@ async initArtList(isRefresh) {
 
 ## 4.7 格式化时间
 
+> 基于 [day.js](https://dayjs.fenxianglu.cn/) 可以方便的实现相对时间的计算
+
+1. 安装 `day.js` 包：
+
+```bash
+npm install dayjs --save
+```
+
+2. 在 `main.js` 入口文件中导入 `day.js` 相关的模块：
+
+```js
+// 导入 dayjs 的核心模块
+import dayjs from 'dayjs'
+
+// 导入计算相对时间的插件
+import relativeTime from 'dayjs/plugin/relativeTime'
+
+// 导入中文语言包
+import zh from 'dayjs/locale/zh-cn'
+```
+
+3. 在 `main.js` 入口文件中，配置`插件和语言包`：
+
+```js
+// 配置“计算相对时间”的插件
+dayjs.extend(relativeTime)
+
+// 配置中文语言包
+dayjs.locale(zh)
+```
+
+4. 在 `main.js` 入口文件中，定义格式化时间的`全局过滤器`：
+
+```js
+// dt 参数是文章的发表时间
+Vue.filter('dateFormat', dt => {
+  // 调用 dayjs() 得到的是当前的时间
+  // .to() 方法的返回值，是计算出来的“相对时间”
+  return dayjs().to(dt)
+})
+```
+
+5. 在 `ArtItem.vue` 组件中，使用`全局过滤器格式化时间`：
+
+```vue
+<!-- label 区域的插槽 -->
+<template #label>
+  <div class="label-box">
+    <span>{{article.aut_name}} &nbsp;&nbsp; {{article.comm_count}}评论 &nbsp;&nbsp; {{article.pubdate | dateFormat}}</span>
+    <!-- 关闭按钮 -->
+    <van-icon name="cross" />
+  </div>
+</template>
+```
+
 ## 4.8 文章列表图片的懒加载
 
+> 基于 Vant 的 [Lazyload 懒加载](https://vant-contrib.gitee.io/vant/#/zh-CN/lazyload)，可以轻松实现列表中图片的懒加载效果
+
+1. 在 `main.js` 入口文件中，按需导入 `Lazyload` 指令：
+
+```js
+import Vant, { Lazyload } from 'vant'
+```
+
+2. 在` main.js` 中将 `Lazyload` 注册为全局可用的指令：
+
+```js
+Vue.use(Lazyload)
+```
+
+3. 在 `ArtItem.vue` 组件中，删除 `<img>` 标签的 `src 属性`，并应用 `v-lazy 指令`，指令的值是要展示的图片地址：
+
+```vue
+<!-- 单张图片 -->
+<img alt="" class="thumb" v-if="article.cover.type === 1" v-lazy="article.cover.images[0]">
+
+<!-- 三张图片 -->
+<div class="thumb-box" v-if="article.cover.type === 3">
+  <img alt="" class="thumb" v-for="(item, index) in article.cover.images" :key="index" v-lazy="item">
+</div>
+```
+
 ## 4.9 分支的合并和提交
+
+1. 将修改过后的文件加入暂存区，并进行本地的 `commit` 提交：
+
+```bash
+git add .
+git commit -m "实现了文章列表的功能"
+```
+
+2. 将本地的 `artlist` 分支首次推送到 Gitee 仓库中：
+
+```bash
+git push -u origin artlist
+```
+
+3. 将本地的 `artlist` 分支合并到本地的 `master` 主分支，并推送 master 分支到 Gitee 仓库：
+
+```bash
+git checkout master
+git merge artlist
+git push
+```
+
+4. 删除本地的 `artlist` 子分支：
+
+```bash
+git branch -d artlist
+```
+
+5. 基于 `master` 主分支，新建 `feedback` 分支，准备开发反馈操作相关的功能：
+
+```bash
+git checkout -b feedback
+```
+
