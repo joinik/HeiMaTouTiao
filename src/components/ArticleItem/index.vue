@@ -32,7 +32,9 @@
 
     <!-- 反馈的动作面板 -->
     <van-action-sheet v-model="show" cancel-text="取消" :closeable="false">
-      <div class="content">内容</div>
+      <div class="content">
+       <van-cell :title="item.name" clickable class="center-title" v-for="item in actions" :key="item.name" />
+      </div>
     </van-action-sheet>
   </div>
 </template>
@@ -50,7 +52,13 @@ export default {
   data () {
     return {
       // 是否展示反馈面板
-      show: false
+      show: false,
+      // 第一个面板的可选项列表
+      actions: [
+        { name: '不感兴趣' },
+        { name: '反馈垃圾内容' },
+        { name: '拉黑作者' }
+      ]
     }
   }
 }
@@ -79,5 +87,9 @@ export default {
 .thumb-box {
   display: flex;
   justify-content: space-between;
+}
+
+.center-title {
+  text-align: center;
 }
 </style>
