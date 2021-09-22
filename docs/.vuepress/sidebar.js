@@ -17,5 +17,11 @@ module.exports = [
     path: '/main-layout/',
     sidebarDepth: 3,
     children: [ /* ... */],
+  },
+  {
+    title: '4.文章列表',
+    path: '/article-list/',
+    sidebarDepth: 3,
+    children: [ /* ... */],
   }
 ]

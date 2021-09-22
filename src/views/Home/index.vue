@@ -14,7 +14,9 @@
     <!-- 频道列表的标签页 -->
     <van-tabs v-model="active" sticky offset-top="1.22666667rem">
       <!-- 循环渲染用户的频道 -->
-      <van-tab v-for="item in userChannel" :key="item.id" :title="item.name">{{ item.name }}</van-tab>
+      <van-tab v-for="item in userChannel" :key="item.id" :title="item.name">
+       <article-list :channel-id="item.id"></article-list>
+      </van-tab>
     </van-tabs>
     <!-- 频道管理的小图标 -->
     <van-icon name="plus" size="16" class="plus" />
@@ -22,10 +24,16 @@
 </template>
 
 <script>
+// 导入ArticleList组件
+import ArticleList from '@/components/ArticleList'
 // 按需导入 API 接口
 import { getUserChannelAPI } from '@/API/homeAPI'
+
 export default {
   name: 'Home',
+  components: {
+    ArticleList
+  },
   data () {
     return {
       // 标签页激活项的索引
