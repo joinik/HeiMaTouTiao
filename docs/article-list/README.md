@@ -51,8 +51,38 @@ components: {
 ## 4.2 封装channelled属性
 
 1. 在`ArtList.vue`组件的`props`节点下，封装`channelId`属性：
+
+```js
+export default {
+  name: 'ArtList',
+  props: {
+    // 频道 Id（小驼峰命名法：第一个单词全部小写，后面的单词首字母大写）
+    channelId: {
+      type: Number, // 数值类型
+      required: true // 必填项
+    }
+  }
+}
+```
+
 2. 在`Home.vue`组件中使用`ArtList.vue`组件时，通过属性绑定的形式，为其提供必填的`channel-id`属性值：
+
+```vue
+<van-tabs v-model="active" sticky offset-top="1.22666667rem">
+  <van-tab v-for="item in userChannel" :key="item.id" :title="item.name">
+    <!-- 注意：Vue 官方建议在绑定 props 时，把“小驼峰”的属性名，改造成“短横线”的形式使用 -->
+    <art-list :channel-id="item.id"></art-list>
+  </van-tab>
+</van-tabs>
+```
+
 3. 在`ArtList.vue`组件中，通过**插值表达式**渲染props接收到的`channelId`：
+
+```vue
+<template>
+  <div>文章列表组件 --- {{channelId}}</div>
+</template>
+```
 
 ## 4.3 请求文章列表的数据
 
