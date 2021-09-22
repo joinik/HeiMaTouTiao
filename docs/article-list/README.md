@@ -423,7 +423,50 @@ async initArtList() {
 
 ### 4.6.1 初步使用 PullRefresh 组件
 
-1. 在 ArtList.vue 组件 methods 节点下的 onRefresh 方法中，调用 initArtList 函数请求下拉刷新的数据：
+1. 在 `ArtList.vue` 组件的 `data` 中声明如下的数据项：
+
+```js
+data() {
+  return {
+    // 省略其它的数据项...
+
+    // 是否正在进行下拉刷新的请求
+    isLoading: false
+  }
+}
+```
+
+2. 在 `ArtList.vue` 组件的模板结构中，在 `<van-list>` 之外包裹实现下拉刷新的 `<van-pull-refresh>` 组件：
+
+```vue
+<template>
+  <div>
+    <!-- 下拉刷新 -->
+    <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+      <!-- 上拉加载更多 -->
+      <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad" :immediate-check="false">
+        <!-- 循环渲染文章的列表 -->
+        <art-item v-for="item in artlist" :key="item.art_id" :article="item"></art-item>
+      </van-list>
+    </van-pull-refresh>
+  </div>
+</template>
+```
+
+在 `ArtList.vue` 组件的 `methods` 中，声明 `@refresh` 的事件处理函数 `onRefresh`：
+
+```js
+methods: {
+  // 下拉刷新
+  onRefresh() {
+    console.log('触发了下拉刷新')
+  }
+}
+```
+
+### 4.6.2 请求下拉刷新的数据
+
+1. 在 `ArtList.vue` 组件 `methods` 节点下的 `onRefresh` 方法中，调用 `initArtList` 函数请求下拉刷新的数据：
 
 ```js
 // 下拉刷新
@@ -432,7 +475,7 @@ onRefresh() {
 }
 ```
 
-2. 改造 methods 中的 initArtList 函数，通过形参接收调用者传递过来的值：
+2. 改造 `methods` 中的 `initArtList` 函数，通过形参接收调用者传递过来的值：
 
 ```js
 methods: {
@@ -445,7 +488,7 @@ methods: {
 }
 ```
 
-3. 进一步改造 initArtList 函数，根据 isRefresh 的值，来决定如何拼接请求到的数据：
+3. 进一步改造 `initArtList` 函数，根据 `isRefresh` 的值，来决定如何拼接请求到的数据：
 
 ```js
 // 初始化文章的列表数据
@@ -484,8 +527,6 @@ async initArtList(isRefresh) {
 <!-- 下拉刷新 -->
 <van-pull-refresh v-model="isLoading" @refresh="onRefresh" :disabled="finished"></van-pull-refresh>
 ```
-
-### 4.6.2 请求下拉刷新的数据
 
 ## 4.7 格式化时间
 
