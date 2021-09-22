@@ -31,7 +31,13 @@
     </van-cell>
 
     <!-- 反馈的动作面板 -->
-    <van-action-sheet v-model="show" cancel-text="取消" :closeable="false" @closed="isFirst = true" get-container="body">
+    <van-action-sheet
+      v-model="show"
+      cancel-text="取消"
+      :closeable="false"
+      @closed="isFirst = true"
+      get-container="body"
+    >
       <!-- 第一级反馈面板 -->
       <div class="content" v-if="isFirst">
         <van-cell
@@ -60,6 +66,8 @@
 
 <script>
 import reports from '@/API/reports'
+// 按需导入 API 接口
+import { dislikeArticleAPI } from '@/API/homeAPI.js'
 
 export default {
   name: 'ArticleItem',
@@ -88,9 +96,13 @@ export default {
   },
   methods: {
     // 一级选项的点击事件处理函数
-    onCellClick (name) {
+    async onCellClick (name) {
       if (name === '不感兴趣') {
-        console.log('不感兴趣')
+        // 调用 API 接口，将文章设置为不感兴趣
+        const { data: res } = await dislikeArticleAPI(this.artId)
+        if (res.message === 'OK') {
+          // TODO：炸楼的操作
+        }
         this.show = false
       } else if (name === '拉黑作者') {
         console.log('拉黑作者')
@@ -99,6 +111,13 @@ export default {
         // TODO：展示二级反馈面板
         this.isFirst = false
       }
+    }
+  },
+  computed: {
+    // 文章 Id 的计算属性
+    artId () {
+      // 注意：文章对象的 art_id 是大数对象，需要调用 .toString() 方法转换为字符串形式
+      return this.article.art_id.toString()
     }
   }
 }
