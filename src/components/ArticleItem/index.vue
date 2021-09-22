@@ -31,7 +31,7 @@
     </van-cell>
 
     <!-- 反馈的动作面板 -->
-    <van-action-sheet v-model="show" cancel-text="取消" :closeable="false" @closed="isFirst = true">
+    <van-action-sheet v-model="show" cancel-text="取消" :closeable="false" @closed="isFirst = true" get-container="body">
       <!-- 第一级反馈面板 -->
       <div class="content" v-if="isFirst">
         <van-cell
@@ -46,12 +46,21 @@
       <!-- 第二级反馈面板 -->
       <div v-else>
         <van-cell title="返回" clickable title-class="center-title" @click="isFirst = true" />
+        <van-cell
+          :title="item.label"
+          clickable
+          title-class="center-title"
+          v-for="item in reports"
+          :key="item.type"
+        />
       </div>
     </van-action-sheet>
   </div>
 </template>
 
 <script>
+import reports from '@/API/reports'
+
 export default {
   name: 'ArticleItem',
   props: {
@@ -72,7 +81,9 @@ export default {
         { name: '拉黑作者' }
       ],
       // 是否展示第一个反馈面板
-      isFirst: true
+      isFirst: true,
+      // 第二个面板的可选项列表，数组中每一项的格式 { type, label }
+      reports
     }
   },
   methods: {

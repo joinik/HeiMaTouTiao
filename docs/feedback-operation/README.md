@@ -189,3 +189,102 @@ else if (name === '反馈垃圾内容') {
   <!-- 省略其它代码 -->
 </van-action-sheet>
 ```
+
+## 5.5 渲染二级反馈面板的数据
+
+1. 在 `/src/api/` 目录下，新建 `reports.js` 模块，用来定义第二个反馈面板要用到的列
+
+```js
+// 以模块的方式导出"举报文章"时，后端接口约定的举报类型
+const reports = [
+  {
+    type: 0,
+    label: '其它问题'
+  },
+  {
+    type: 1,
+    label: '标题夸张'
+  },
+  {
+    type: 2,
+    label: '低俗色情'
+  },
+  {
+    type: 3,
+    label: '错别字多'
+  },
+  {
+    type: 4,
+    label: '旧闻重复'
+  },
+  {
+    type: 6,
+    label: '内容不实'
+  },
+  {
+    type: 8,
+    label: '侵权'
+  },
+  {
+    type: 5,
+    label: '广告软文'
+  },
+  {
+    type: 7,
+    label: '涉嫌违法犯罪'
+  }
+]
+export default reports
+```
+
+2. 在 `ArtItem.vue` 组件中，导入 `/src/api/reports.js` 模块：
+
+```js
+import reports from '@/api/reports'
+```
+
+3. 并将导入得到的 `reports` 数组挂载为 `ArtItem.vue` 组件的 `data` 数据，供模板结构进行 `v-for `循环的渲染：
+
+```js
+data() {
+  return {
+    // 省略其它数据项...
+
+    // 第二个面板的可选项列表，数组中每一项的格式 { type, label }
+    reports
+  }
+}
+```
+
+4. 在 `ArtItem.vue` 组件的模板结构中，循环渲染**二级反馈面板**的可选项列表：
+
+```vue
+<!-- 第二级反馈面板 -->
+<div v-else>
+  <van-cell title="返回" clickable title-class="center-title" @click="isFirst = true" />
+  <van-cell :title="item.label" clickable title-class="center-title" v-for="item in reports" :key="item.type" />
+</div>
+```
+
+## 5.6 指定动作面板的挂载位置
+
+1. 默认情况下，我们是在 `ArtItem.vue` 组件中使用的 `<van-action-sheet>` 组件，因此动作面板的 `DOM` 结构会被渲染到 `List` 列表组件 内部：
+    - **导致的问题**：动作面板中的内容上下滑动时，会导致 `List 列表组件的` **下拉刷新**
+
+2. 解决方案：把 `ActionList` 组件，通过 `get-container` 属性，挂载到 `body` 元素下
+
+```vue
+<van-action-sheet v-model="show" cancel-text="取消" :closeable="false" @closed="isFirst = true" get-container="body">
+  <!-- 省略其它代码 -->
+</van-action-sheet>
+```
+
+## 5.7 将文章设置为不感兴趣
+
+## 5.8 从列表中移除不感兴趣的文章
+
+## 5.9 炸楼之后防止上拉加载不生效
+
+## 5.10 实现举报文章的功能
+
+## 5.11 分支的合并与提交
