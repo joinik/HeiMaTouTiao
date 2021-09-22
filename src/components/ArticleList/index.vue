@@ -99,9 +99,13 @@ export default {
     },
     // 从文章列表中移除指定 id 的文章
     removeArticle (id) {
-      // console.log(id)
-      // 对原数组进行 filter 方法的过滤
+      // 1. 炸楼操作
       this.artlist = this.artlist.filter(item => item.art_id.toString() !== id)
+      // 2. 判断剩余数据的文章数量是否小于 10
+      if (this.artlist.length < 10) {
+        // 主动请求下一页数据
+        this.initArtList()
+      }
     }
   },
   created () {

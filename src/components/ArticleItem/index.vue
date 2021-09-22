@@ -58,6 +58,7 @@
           title-class="center-title"
           v-for="item in reports"
           :key="item.type"
+          @click="reportArticle(item.type)"
         />
       </div>
     </van-action-sheet>
@@ -67,8 +68,7 @@
 <script>
 import reports from '@/API/reports'
 // 按需导入 API 接口
-import { dislikeArticleAPI } from '@/API/homeAPI.js'
-
+import { dislikeArticleAPI, reportArticleAPI } from '@/API/homeAPI.js'
 export default {
   name: 'ArticleItem',
   props: {
@@ -113,6 +113,17 @@ export default {
         // TODO：展示二级反馈面板
         this.isFirst = false
       }
+    },
+    // 举报文章（形参 type 是举报的类型值）
+    async reportArticle (type) {
+      // 1. 发起举报文章的请求
+      const { data: res } = await reportArticleAPI(this.artId, type)
+      if (res.message === 'OK') {
+        // 2. 炸楼操作，触发自定义事件，把文章 Id 发送给父组件
+        this.$emit('remove-article', this.artId)
+      }
+      // 3. 关闭动作面板
+      this.show = false
     }
   },
   computed: {

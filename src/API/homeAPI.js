@@ -21,3 +21,11 @@ export const dislikeArticleAPI = id => {
     target: id
   })
 }
+
+// 举报文章的 API
+export const reportArticleAPI = (target, type) => {
+  return request.post('/v1_0/article/reports', {
+    target, // 文章的 Id
+    type // 举报的类型
+  })
+}

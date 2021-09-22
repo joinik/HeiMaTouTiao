@@ -385,6 +385,107 @@ methods: {
 
 ## 5.9 炸楼之后防止上拉加载不生效
 
+> 问题描述：炸楼之后，如果文章列表的数据不足以撑满整个屏幕，会导致上拉加载和下拉刷新不生效的问题
+> 解决方案：每次炸楼之后，判断剩余数据的文章数量是否小于 10，如果小于 10，则主动请求下一页的数据
+
+1. 在 `ArtList.vue` 组件的 methods 节点下，改造 `removeArticle` 方法：
+
+```js
+methods: {
+  // 从文章列表中移除指定 id 的文章
+  removeArticle(id) {
+    // 1. 炸楼操作
+    this.artlist = this.artlist.filter(item => item.art_id.toString() !== id)
+
+    // 2. 判断剩余数据的文章数量是否小于 10
+    if (this.artlist.length < 10) {
+      // 主动请求下一页的数据
+      this.initArtList()
+    }
+  }
+}
+```
+
 ## 5.10 实现举报文章的功能
 
+1. 在 `/sr/api/homeAPI.js` 模块中，定义 `reportArticleAPI` 的方法，用来实现举报文章的功能：
+
+```js
+// 举报文章的 API
+export const reportArticleAPI = (target, type) => {
+  return request.post('/v1_0/article/reports', {
+    target, // 文章的 Id
+    type // 举报的类型
+  })
+}
+```
+
+2. 在 `ArtItem.vue` 组件中，按需导入举报文章的 `API`接口：
+
+```js
+// 按需导入 API 接口
+import { dislikeArticleAPI, reportArticleAPI } from '@/api/homeAPI.js'
+```
+
+3. 在 `ArtItem.vue` 组件中，为二级反馈面板中的选项，绑定点击事件处理函数，将举报的类型作为参数，传递到事件处理函数中：
+
+```vue
+<!-- 第二级反馈面板 -->
+<div v-else>
+  <van-cell title="返回" clickable title-class="center-title" @click="isFirst = true" />
+  <van-cell :title="item.label" clickable title-class="center-title" v-for="item in reports" :key="item.type" @click="reportArticle(item.type)" />
+</div>
+```
+
+4. 在 `ArtItem.vue`组件的 methods 节点下，定义名为 `reportArticle` 的点击事件处理函数：
+
+```js
+methods: {
+  // 举报文章（形参 type 是举报的类型值）
+  async reportArticle(type) {
+    // 1. 发起举报文章的请求
+    const { data: res } = await reportArticleAPI(this.artId, type)
+    if (res.message === 'OK') {
+      // 2. 炸楼操作，触发自定义事件，把文章 Id 发送给父组件
+      this.$emit('remove-article', this.artId)
+    }
+    // 3. 关闭动作面板
+    this.show = false
+  }
+}
+```
+
 ## 5.11 分支的合并与提交
+
+1. 将修改过后的文件加入暂存区，并进行本地的 `commit` 提交：
+
+```bash
+git add .
+git commit -m "实现了反馈操作"
+```
+
+2. 将本地的 `feedback` 分支首次推送到 Gitee 仓库中：
+
+```bash
+git push -u origin feedback
+```
+
+3. 将本地的 `feedback` 分支合并到本地的 `master` 主分支，并推送 master 分支到 Gitee 仓库：
+
+```bash
+git checkout master
+git merge feedback
+git push
+```
+
+4. 删除本地的 `feedback` 子分支：
+
+```bash
+git branch -d feedback
+```
+
+5. 基于 master 主分支，新建 `channel` 分支，准备开发频道管理相关的功能：
+
+```bash
+git checkout -b channel
+```
