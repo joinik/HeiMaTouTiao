@@ -354,7 +354,6 @@ import { loginAPI } from '@/api/userAPI'
     // 只有当表单数据校验通过之后，才会调用此Login函数
     const res = await loginAPI(this.form)
     // 当数据请求成功之后，res.data中存储的就是服务器响应回来的数据
-    console.log(res);
   }
 ```
 

@@ -44,10 +44,9 @@ export default {
   },
   methods: {
     async initUserChannel () {
-      console.log(111)
       // 1. 调用 API 接口
       const { data: res } = await getUserChannelAPI()
-      console.log(res)
+      // console.log(res)
       // 2. 判断请求是否成功
       if (res.message === 'OK') {
         // 3. 为用户的频道列表赋值

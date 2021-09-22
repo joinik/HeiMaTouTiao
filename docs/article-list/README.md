@@ -286,6 +286,57 @@ export default {
 
 ## 4.5 上拉加载更多
 
+> 基于 Vant 的 [List 列表](https://vant-contrib.gitee.io/vant/#/zh-CN/list)组件，可以轻松实现列表的上拉加载更多效果
+
+### 4.5.1 初步使用List列表组件
+
+1. 在 `ArtList.vue` 组件的 `data` 中，声明如下的两个数据项：
+
+```js
+data() {
+  return {
+    // loading 表示是否正在进行上拉加载的请求
+    //   每当触发 List 组件的上拉加载更多时，List 组件会自动把 loading 设为 true
+    //   每当下一页的数据请求回来以后，需要程序员手动的把 loading 设为 false，
+    //   否则：再次触发上拉加载更多时，不会发起请求！！
+    loading: false,
+
+    // finished 表示所有数据是否加载完毕
+    //    false 表示还有下一页的数据
+    //    true  表示所有数据都已加载完毕
+    finished: false
+  }
+}
+```
+
+2. 在 `ArtList.vue` 组件的模板结构中，使用 `<van-list>` 组件将 `<art-item>` 组件包裹起来：
+
+```vue
+<template>
+  <div>
+    <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+      <!-- 循环渲染文章的列表 -->
+      <art-item v-for="item in artlist" :key="item.art_id" :article="item"></art-item>
+    </van-list>
+  </div>
+</template>
+```
+
+3. 在 `ArtList.vue` 组件的 `methods` 中声明 `onLoad` 函数如下：
+
+```js
+methods: {
+  // 加载更多的数据
+  onLoad() {
+    console.log('触发了上拉加载更多')
+  }
+}
+```
+
+### 4.5.2 防止首次加载时触发 load 事件
+
+### 4.5.3 实现上拉加载更多
+
 ## 4.6 下拉刷新
 
 ## 4.7 格式化时间
