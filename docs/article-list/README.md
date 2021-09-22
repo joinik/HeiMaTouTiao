@@ -335,8 +335,8 @@ methods: {
 
 ### 4.5.2 防止首次加载时触发 load 事件
 
-1. 在浏览器中经过测试，发现：<van-list>组件首次加载的时候，会自动触发一次 @load 事件。
-2. 经过翻阅 Vant 的官方文档，发现可以为 <van-list> 组件绑定 :immediate-check="false" 属性，即可防止首次加载时触发 load 事件：
+1. 在浏览器中经过测试，发现：`<van-list>`组件首次加载的时候，会自动触发一次 `@load` 事件。
+2. 经过翻阅 Vant 的官方文档，发现可以为 `<van-list>` 组件绑定 `:immediate-check="false"`属性，即可防止首次加载时触发 load 事件：
 
 ```vue
 <template>
@@ -351,7 +351,141 @@ methods: {
 
 ### 4.5.3 实现上拉加载更多
 
+1. 在 `<van-list>` 组件的 `@load="onLoad"` 事件处理函数中，调用 `initArtList`方法：
+
+```js
+// 加载更多的数据
+onLoad() {
+  console.log('触发了上拉加载更多')
+  this.initArtList()
+}
+```
+
+2. 改造 `methods` 中的 `initArtList` 函数，每当下一页数据请求回来之后，需要进行新旧数据的拼接操作：
+
+```js
+// 初始化文章的列表数据
+async initArtList() {
+  // 请求 API 接口
+  const { data: res } = await getArtListAPI(this.channelId)
+  if (res.message === 'OK') {
+    // 为时间戳重新赋值
+    this.timestamp = res.data.pre_timestamp
+    // 1. 上拉加载更多时，应该是“旧数据”在前，“新数据”在后
+    this.artlist = [...this.artlist, ...res.data.results]
+  }
+},
+```
+
+3. 当下一页数据请求回来之后，应该重置 `data` 中的 `loading` 为 `false`，否则下次触发“上拉加载更多”的时候，无法正常发起数据请求：
+
+```js
+// 初始化文章的列表数据
+async initArtList() {
+  // 请求 API 接口
+  const { data: res } = await getArtListAPI(this.channelId,this.timestamp)
+  if (res.message === 'OK') {
+    // 为时间戳重新赋值
+    this.timestamp = res.data.pre_timestamp
+    // 1. 上拉加载更多时，应该是“旧数据”在前，“新数据”在后
+    this.artlist = [...this.artlist, ...res.data.results]
+    // 2. 重置 loading 为 false
+    this.loading = false
+  }
+},
+```
+
+4. 当下一页数据请求回来之后，根据请求的结果，判断所有数据是否已加载完毕：
+
+```js
+// 初始化文章的列表数据
+async initArtList() {
+  // 请求 API 接口
+  const { data: res } = await getArtListAPI(this.channelId,this.timestamp)
+  if (res.message === 'OK') {
+    // 为时间戳重新赋值
+    this.timestamp = res.data.pre_timestamp
+    // 1. 上拉加载更多时，应该是“旧数据”在前，“新数据”在后
+    this.artlist = [...this.artlist, ...res.data.results]
+    // 2. 重置 loading 为 false
+    this.loading = false
+    // 3. 判断所有的数据是否已加载完毕
+    if (res.data.pre_timestamp === null) {
+      this.finished = true
+    }
+  }
+},
+```
+
 ## 4.6 下拉刷新
+
+> 基于 Vant 的 [PullRefresh 下拉刷新](https://vant-contrib.gitee.io/vant/#/zh-CN/pull-refresh)组件，可以轻松实现列表的下拉刷新效果
+
+### 4.6.1 初步使用 PullRefresh 组件
+
+1. 在 ArtList.vue 组件 methods 节点下的 onRefresh 方法中，调用 initArtList 函数请求下拉刷新的数据：
+
+```js
+// 下拉刷新
+onRefresh() {
+  this.initArtList(true)
+}
+```
+
+2. 改造 methods 中的 initArtList 函数，通过形参接收调用者传递过来的值：
+
+```js
+methods: {
+  // 初始化文章的列表数据
+  // 如果 isRefresh 的值为 true，证明是下拉刷新，在最终拼接数据时，应该是“新数据”在前，“旧数据”在后
+  // 如果 isRefresh 的值不为 true，证明不是下拉刷新，则拼接数据时，应该是“旧数据”在前，“新数据”在后
+  async initArtList(isRefresh) {
+    // 省略其它代码...
+  }
+}
+```
+
+3. 进一步改造 initArtList 函数，根据 isRefresh 的值，来决定如何拼接请求到的数据：
+
+```js
+// 初始化文章的列表数据
+async initArtList(isRefresh) {
+  // 请求 API 接口
+  const { data: res } = await getArtListAPI(this.channelId)
+  if (res.message === 'OK') {
+    // 为时间戳重新赋值
+    this.timestamp = res.data.pre_timestamp
+    // 判断是否为下拉刷新
+    if (isRefresh) {
+      // 下拉刷新
+      // 1. “新数据”在前，“旧数据”在后
+      this.artlist = [...res.data.results, ...this.artlist]
+      // 2. 重置 isLoading 为 false
+      this.isLoading = false
+    } else {
+      // 上拉加载
+      // 1. “旧数据”在前，“新数据”在后
+      this.artlist = [...this.artlist, ...res.data.results]
+      // 2. 重置 loading 为 false
+   this.loading = false
+    }
+
+    // 3. 判断所有的数据是否已加载完毕
+    if (res.data.pre_timestamp === null) {
+      this.finished = true
+    }
+  }
+}
+```
+
+4. 没有更多数据时，禁用下拉刷新的效果：
+
+```vue
+<!-- 下拉刷新 -->
+<van-pull-refresh v-model="isLoading" @refresh="onRefresh" :disabled="finished"></van-pull-refresh>
+```
+
+### 4.6.2 请求下拉刷新的数据
 
 ## 4.7 格式化时间
 
