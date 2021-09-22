@@ -33,7 +33,14 @@
     <!-- 反馈的动作面板 -->
     <van-action-sheet v-model="show" cancel-text="取消" :closeable="false">
       <div class="content">
-       <van-cell :title="item.name" clickable class="center-title" v-for="item in actions" :key="item.name" />
+        <van-cell
+          :title="item.name"
+          clickable
+          class="center-title"
+          v-for="item in actions"
+          :key="item.name"
+          @click="onCellClick(item.name)"
+        />
       </div>
     </van-action-sheet>
   </div>
@@ -59,6 +66,20 @@ export default {
         { name: '反馈垃圾内容' },
         { name: '拉黑作者' }
       ]
+    }
+  },
+  methods: {
+    // 一级选项的点击事件处理函数
+    onCellClick (name) {
+      if (name === '不感兴趣') {
+        console.log('不感兴趣')
+        this.show = false
+      } else if (name === '拉黑作者') {
+        console.log('拉黑作者')
+        this.show = false
+      } else if (name === '反馈垃圾内容') {
+        // TODO：展示二级反馈面板
+      }
     }
   }
 }

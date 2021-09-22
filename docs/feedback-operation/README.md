@@ -88,3 +88,33 @@ data() {
   </div>
 </van-action-sheet>
 ```
+
+## 5.3 点击一级选项
+
+1. 为一级选项绑定名为 `onCellClick` 的点击事件处理函数，同时把当前选项的 `name` 作为参数，传递给事件处理函数：
+
+```vue
+<!-- 一级选项 -->
+<van-cell :title="item.name" clickable class="center-title" v-for="item in actions" :key="item.name" @click="onCellClick(item.name)" />
+```
+
+2. 在 `ArtItem.vue` 组件的 `methods` 节点下，声明 `onCellClick` 方法如下：
+
+```js
+methods: {
+  // 一级选项的点击事件处理函数
+  onCellClick(name) {
+    if (name === '不感兴趣') {
+      console.log('不感兴趣')
+      this.show = false
+
+    } else if (name === '拉黑作者') {
+      console.log('拉黑作者')
+      this.show = false
+
+    } else if (name === '反馈垃圾内容') {
+      // TODO：展示二级反馈面板
+    }
+  }
+}
+```
