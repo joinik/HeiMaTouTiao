@@ -233,6 +233,34 @@ created() {
 
 ### 6.2.2 动态计算更多频道的数据
 
+1. 在 Home.vue 组件的 computed 节点下，定义名为 moreChannels 的计算属性：
+
+```js
+computed: {
+  // 更多频道的数据
+  moreChannels() {
+    // 1. 对数组进行 filter 过滤，返回的是符合条件的新数组
+    return this.allChannel.filter(item => {
+      // 判断当前循环项，是否在 “我的频道” 列表之中
+      const index = this.userChannel.findIndex(x => x.id === item.id)
+      // 如果不在，则 return true，表示需要把这一项存储到返回的新数组之中
+      if (index === -1) return true
+    })
+  }
+},
+```
+
+2. 修改更多频道列表的数据源：
+
+```vue
+<!-- 更多频道列表 -->
+<van-row type="flex">
+  <van-col span="6" v-for="item in moreChannels" :key="item.id">
+    <div class="channel-item van-hairline--surround">{{item.name}}</div>
+  </van-col>
+</van-row>
+```
+
 ## 6.3 实现新增频道的功能
 
 ### 6.3.1 初步实现新增频道的功能

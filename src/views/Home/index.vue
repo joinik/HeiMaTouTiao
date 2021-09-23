@@ -63,7 +63,7 @@
             </div>
             <!-- 更多频道列表 -->
             <van-row type="flex">
-              <van-col span="6" v-for="item in userChannel" :key="item.id">
+              <van-col span="6" v-for="item in moreChannels" :key="item.id">
                 <div class="channel-item van-hairline--surround">{{ item.name }}</div>
               </van-col>
             </van-row>
@@ -123,6 +123,18 @@ export default {
 
     // 请求所有的频道列表数据
     this.initAllChannel()
+  },
+  computed: {
+    // 更多频道的数据
+    moreChannels () {
+      // 1. 对数组进行 filter 过滤，返回的是符合条件的新数组
+      return this.allChannel.filter(item => {
+        // 判断当前循环项，是否在 “我的频道” 列表之中
+        const index = this.userChannel.findIndex(x => x.id === item.id)
+        // 如果不在，则 return true，表示需要把这一项存储到返回的新数组之中
+        if (index === -1) return true
+      })
+    }
   }
 }
 </script>
