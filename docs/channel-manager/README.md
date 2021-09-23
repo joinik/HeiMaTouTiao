@@ -45,9 +45,191 @@ data() {
 
 ### 6.1.2 实现频道管理的基础布局
 
+1. 在 `Home.vue` 组件中，对 `<van-popup>` 组件的内容节点进行改造，将以下的 DOM 结构替换到 `<van-popup>` 组件的内容节点之中：
+
+```vue
+<div class="popup-container">
+  <!-- 弹出层的头部区域 -->
+  <van-nav-bar title="频道管理">
+    <template #right>
+      <van-icon name="cross" size="14" color="white" @click="show = false" />
+    </template>
+  </van-nav-bar>
+
+  <!-- 弹出层的主体区域 -->
+  <div class="pop-body">
+    <!-- 我的频道 -->
+    <div class="my-channel-box">
+      <div class="channel-title">
+        <div>
+          <span class="title-bold">已添加频道：</span>
+          <span class="title-gray">点击进入频道</span>
+        </div>
+        <span class="btn-edit">编辑</span>
+      </div>
+      <!-- 我的频道列表 -->
+      <van-row type="flex">
+        <van-col span="6" v-for="item in userChannel" :key="item.id">
+          <!-- 用户的频道 Item 项 -->
+          <div class="channel-item van-hairline--surround">{{item.name}}</div>
+        </van-col>
+      </van-row>
+    </div>
+
+    <!-- 分隔线 -->
+    <div class="van-hairline--top sp-line"></div>
+
+    <!-- 更多频道 -->
+    <div class="more-channel-box">
+      <div class="channel-title">
+        <div>
+          <span class="title-bold">可添加频道：</span>
+          <span class="title-gray">点击添加频道</span>
+        </div>
+      </div>
+      <!-- 更多频道列表 -->
+      <van-row type="flex">
+        <van-col span="6" v-for="item in userChannel" :key="item.id">
+          <div class="channel-item van-hairline--surround">{{item.name}}</div>
+        </van-col>
+      </van-row>
+    </div>
+  </div>
+</div>
+```
+
+2. 对上述的 DOM 布局结构进行样式上的美化：
+
+```css
+.van-popup,
+.popup-container {
+  background-color: transparent;
+  height: 100%;
+  width: 100%;
+}
+
+.popup-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.pop-body {
+  flex: 1;
+  overflow: scroll;
+  padding: 8px;
+  background-color: white;
+}
+
+.my-channel-box,
+.more-channel-box {
+  .channel-title {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    line-height: 28px;
+    padding: 0 6px;
+    .title-bold {
+      font-weight: bold;
+    }
+    .title-gray {
+      color: gray;
+      font-size: 12px;
+    }
+  }
+}
+
+.btn-edit {
+  border: 1px solid #a3a2a2;
+  padding: 0 10px;
+  line-height: 20px;
+  height: 20px;
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+.channel-item {
+  font-size: 12px;
+  text-align: center;
+  line-height: 36px;
+  background-color: #fafafa;
+  margin: 6px;
+}
+
+.cross-badge {
+  position: absolute;
+  right: -3px;
+  top: 0;
+  border: none;
+}
+
+.sp-line {
+  margin: 10px 0 20px 0;
+}
+```
+
 ## 6.2 动态计算更多频道的列表数据
 
+> 后台没有提供直接获取**更多频道**的 API 接口，需要程序员动态地进行计算：
+> 更多频道 = 所有频道 - 我的频道
+> 此时，需要先获取到所有频道地列表数据，再使用**计算属性**动态地进行筛选即可
+
 ### 6.2.1 请求所有频道的列表数据
+
+1. 在 `/src/api/homeAPI.js`模块中，定义名为 `getAllChannelAPI` 的方法，用来请求所有频道列表的数据：
+
+```js
+// 获取所有频道数据的 API
+export const getAllChannelAPI = () => {
+  return request.get('/v1_0/channels')
+}
+```
+
+2. 在 `Home.vue` 组件中，按需导入 `getAllChannelAPI` 方法：
+
+```js
+// 按需导入 API 接口
+import { getUserChannelAPI, getAllChannelAPI } from '@/api/homeAPI'
+```
+
+3. 在 `Home.vue` 组件中，定义名为 `allChannel` 的数组，用来存放所有频道的列表数据：
+
+```js
+data() {
+  return {
+    // 省略其它的数据项...
+
+    // 所有的频道列表数据
+    allChannel: []
+  }
+}
+```
+
+4. 在 `Home.vue` 组件的 `methods` 节点下，声明 `initAllChannel` 方法：
+
+```js
+methods: {
+  // 获取所有频道的列表数据
+  async initAllChannel() {
+    const { data: res } = await getAllChannelAPI()
+    if (res.message === 'OK') {
+      // 将请求到的数据，转存到 allChannel 中
+      this.allChannel = res.data.channels
+    }
+  }
+}
+```
+
+5. 在 `Home.vue` 组件的 `created` 生命周期函数中，调用 `initAllChannel` 方法：
+
+```js
+created() {
+  // 请求用户的频道列表数据
+  this.initUserChannel()
+
+  // 请求所有的频道列表数据
+  this.initAllChannel()
+},
+```
 
 ### 6.2.2 动态计算更多频道的数据
 

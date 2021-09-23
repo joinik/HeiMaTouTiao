@@ -21,7 +21,56 @@
     <!-- 频道管理的小图标 -->
     <van-icon name="plus" size="16" class="plus" @click="show = true" />
     <!-- 频道管理的弹出层 -->
-    <van-popup v-model="show" :close-on-click-overlay="false">内容</van-popup>
+    <van-popup v-model="show" :close-on-click-overlay="false">
+      <div class="popup-container">
+        <!-- 弹出层的头部区域 -->
+        <van-nav-bar title="频道管理">
+          <template #right>
+            <van-icon name="cross" size="14" color="white" @click="show = false" />
+          </template>
+        </van-nav-bar>
+
+        <!-- 弹出层的主体区域 -->
+        <div class="pop-body">
+          <!-- 我的频道 -->
+          <div class="my-channel-box">
+            <div class="channel-title">
+              <div>
+                <span class="title-bold">已添加频道：</span>
+                <span class="title-gray">点击进入频道</span>
+              </div>
+              <span class="btn-edit">编辑</span>
+            </div>
+            <!-- 我的频道列表 -->
+            <van-row type="flex">
+              <van-col span="6" v-for="item in userChannel" :key="item.id">
+                <!-- 用户的频道 Item 项 -->
+                <div class="channel-item van-hairline--surround">{{ item.name }}</div>
+              </van-col>
+            </van-row>
+          </div>
+
+          <!-- 分隔线 -->
+          <div class="van-hairline--top sp-line"></div>
+
+          <!-- 更多频道 -->
+          <div class="more-channel-box">
+            <div class="channel-title">
+              <div>
+                <span class="title-bold">可添加频道：</span>
+                <span class="title-gray">点击添加频道</span>
+              </div>
+            </div>
+            <!-- 更多频道列表 -->
+            <van-row type="flex">
+              <van-col span="6" v-for="item in userChannel" :key="item.id">
+                <div class="channel-item van-hairline--surround">{{ item.name }}</div>
+              </van-col>
+            </van-row>
+          </div>
+        </div>
+      </div>
+    </van-popup>
   </div>
 </template>
 
@@ -29,8 +78,7 @@
 // 导入ArticleList组件
 import ArticleList from '@/components/ArticleList'
 // 按需导入 API 接口
-import { getUserChannelAPI } from '@/API/homeAPI'
-
+import { getUserChannelAPI, getAllChannelAPI } from '@/API/homeAPI'
 export default {
   name: 'Home',
   components: {
@@ -43,7 +91,9 @@ export default {
       // 用户的频道列表数组
       userChannel: [],
       // 控制频道管理弹出层的展示与隐藏
-      show: false
+      show: false,
+      // 所有的频道列表数据
+      allChannel: []
     }
   },
   methods: {
@@ -56,16 +106,28 @@ export default {
         // 3. 为用户的频道列表赋值
         this.userChannel = res.data.channels
       }
+    },
+    // 获取所有频道的列表数据
+    async initAllChannel () {
+      const { data: res } = await getAllChannelAPI()
+      if (res.message === 'OK') {
+        // 将请求到的数据，转存到 allChannel 中
+        this.allChannel = res.data.channels
+      }
     }
 
   },
   created () {
+    // 请求用户的频道列表数据
     this.initUserChannel()
+
+    // 请求所有的频道列表数据
+    this.initAllChannel()
   }
 }
 </script>
 
-<style scoped>
+<style lang="less" scoped>
 /*  */
 .home {
   padding-top: 46px;
@@ -93,5 +155,70 @@ export default {
   top: 58px;
   right: 10px;
   z-index: 999;
+}
+
+.van-popup,
+.popup-container {
+  background-color: transparent;
+  height: 100%;
+  width: 100%;
+}
+
+.popup-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.pop-body {
+  flex: 1;
+  overflow: scroll;
+  padding: 8px;
+  background-color: white;
+}
+
+.my-channel-box,
+.more-channel-box {
+  .channel-title {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    line-height: 28px;
+    padding: 0 6px;
+    .title-bold {
+      font-weight: bold;
+    }
+    .title-gray {
+      color: gray;
+      font-size: 12px;
+    }
+  }
+}
+
+.btn-edit {
+  border: 1px solid #a3a2a2;
+  padding: 0 10px;
+  line-height: 20px;
+  height: 20px;
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+.channel-item {
+  font-size: 12px;
+  text-align: center;
+  line-height: 36px;
+  background-color: #fafafa;
+  margin: 6px;
+}
+
+.cross-badge {
+  position: absolute;
+  right: -3px;
+  top: 0;
+  border: none;
+}
+
+.sp-line {
+  margin: 10px 0 20px 0;
 }
 </style>
