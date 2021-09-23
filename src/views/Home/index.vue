@@ -15,11 +15,13 @@
     <van-tabs v-model="active" sticky offset-top="1.22666667rem">
       <!-- 循环渲染用户的频道 -->
       <van-tab v-for="item in userChannel" :key="item.id" :title="item.name">
-       <article-list :channel-id="item.id"></article-list>
+        <article-list :channel-id="item.id"></article-list>
       </van-tab>
     </van-tabs>
     <!-- 频道管理的小图标 -->
-    <van-icon name="plus" size="16" class="plus" />
+    <van-icon name="plus" size="16" class="plus" @click="show = true" />
+    <!-- 频道管理的弹出层 -->
+    <van-popup v-model="show" :close-on-click-overlay="false">内容</van-popup>
   </div>
 </template>
 
@@ -39,7 +41,9 @@ export default {
       // 标签页激活项的索引
       active: 0,
       // 用户的频道列表数组
-      userChannel: []
+      userChannel: [],
+      // 控制频道管理弹出层的展示与隐藏
+      show: false
     }
   },
   methods: {
