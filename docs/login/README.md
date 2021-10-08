@@ -625,6 +625,15 @@ instance.interceptors.response.use(
 2. 在请求拦截器中，从`store.state`中获取到`tokenInfo`对象上的`token`值：
 3. 如果`tokenStr`的值不为空，则为这次请求的请求头添加`Authorization`身份认证字段：
 
+```js
+// 从 vuex 中获取 token 的值
+    const tokenStr = store.state.tokenInfo.token
+    if (tokenStr) {
+      // 只有 tokenStr 的值存在，才有必要挂载到请求头的 Authorization 属性中
+      config.headers.Authorization = 'Bearer ' + tokenStr
+    }
+```
+
 ## 2.7 分支的提交和合并
 
 1. 将修改过后的文件加入暂存区，并进行本地的 commit 提交：
