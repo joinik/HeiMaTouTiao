@@ -29,3 +29,8 @@ export const reportArticleAPI = (target, type) => {
     type // 举报的类型
   })
 }
+
+// 获取所有频道数据的 API
+export const getAllChannelAPI = () => {
+  return request.get('/v1_0/channels')
+}

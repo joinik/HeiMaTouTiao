@@ -29,5 +29,11 @@ module.exports = [
     path: '/feedback-operation/',
     sidebarDepth: 3,
     children: [ /* ... */],
+  },
+  {
+    title: '6.频道管理',
+    path: '/channel-manager/',
+    sidebarDepth: 3,
+    children: [ /* ... */],
   }
 ]
