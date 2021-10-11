@@ -265,7 +265,7 @@ computed: {
 
 ### 6.3.1 初步实现新增频道的功能
 
-1. 为“更多频道”下的 item 项绑定点击事件处理函数，将当前的频道信息作为参数，传递给 addChannel 方法：
+1. 为“更多频道”下的 `item` 项绑定点击事件处理函数，将当前的频道信息作为参数，传递给 `addChannel` 方法：
 
 ```html
 <!-- 更多频道列表 -->
@@ -276,7 +276,7 @@ computed: {
 </van-row>
 ```
 
-2. 在 Home.vue 组件的 methods 节点下，声明 addChannel 处理函数：
+2. 在 `Home.vue` 组件的 `methods` 节点下，声明 `addChannel` 处理函数：
 
 ```js
 methods: {
@@ -292,7 +292,7 @@ methods: {
 
 ### 6.3.2 将频道数据存储到数据库
 
-1. 在 /src/api/homeAPI.js 模块中，声明如下的 API 接口，用来将用户的频道列表数据提交到服务器保存：
+1. 在 `/src/api/homeAPI.js` 模块中，声明如下的 `API` 接口，用来将用户的频道列表数据提交到服务器保存：
 
 ```js
 // 更新用户频道列表数据的 API
@@ -304,7 +304,7 @@ export const updateUserChannelAPI = channels => {
 }
 ```
 
-2. 在 Home.vue 组件中，按需导入 API 接口：
+2. 在 `Home.vue` 组件中，按需导入 `API` 接口：
 
 ```js
 // 按需导入 API 接口
@@ -336,7 +336,7 @@ methods: {
 }
 ```
 
-4. 在 Home.vue 组件的 addChannel 方法中，调用上一步封装的 updateChannel 方法：
+4. 在 `Home.vue` 组件的 `addChannel` 方法中，调用上一步封装的 `updateChannel` 方法：
 
 ```js
 methods: {
@@ -355,7 +355,7 @@ methods: {
 
 > 基于 Vant 的 [Notify 消息提示](https://vant-contrib.gitee.io/vant/#/zh-CN/notify)组件，可以实现顶部的消息通知
 
-1. 在 Home.vue 组件的 updateChannel 方法中，调用 this.$notify() 方法，即可进行消息的提示：
+1. 在 `Home.vue` 组件的 `updateChannel` 方法中，调用 `this.$notify()` 方法，即可进行消息的提示：
 
 ```js
 methods: {
@@ -381,13 +381,13 @@ methods: {
 }
 ```
 
-2. 为什么在 .vue 的组件中可以直接调用到 this.$notify() 方法，详情可以参考 Vant 的官方文档：[Notify 消息提示 - 全局方法](https://vant-contrib.gitee.io/vant/#/zh-CN/notify#quan-ju-fang-fa)
+2. 为什么在 .vue 的组件中可以直接调用到 `this.$notify()` 方法，详情可以参考 Vant 的官方文档：[Notify 消息提示 - 全局方法](https://vant-contrib.gitee.io/vant/#/zh-CN/notify#quan-ju-fang-fa)
 
 ## 6.4 实现删除频道的功能
 
 ### 6.4.1 控制删除的状态
 
-1. 在 Home.vue 组件的 data 节点下声明布尔值 isDel，来控制当前是否处于删除的状态：
+1. 在 `Home.vue 组件的 `data` 节点下声明布尔值 `isDel`，来控制当前是否处于删除的状态：
 
 ```js
 data() {
@@ -400,13 +400,13 @@ data() {
 }
 ```
 
-2. 点击编辑按钮的时候，切换 isDel 的状态：
+2. 点击编辑按钮的时候，切换 `isDel` 的状态：
 
 ```html
 <span class="btn-edit" @click="isDel = !isDel">编辑</span>
 ```
 
-3. 根据 isDel 的状态，动态渲染按钮的文本和提示的文本：
+3. 根据 `isDel` 的状态，动态渲染按钮的文本和提示的文本：
 
 ```html
 <div class="channel-title">
@@ -422,7 +422,7 @@ data() {
 
 ### 6.4.2 渲染删除的图标
 
-1. 在 Home.vue 组件中，在用户的频道中渲染删除的小图标：
+1. 在 `Home.vue` 组件中，在用户的频道中渲染删除的小图标：
 
 ```html
 <!-- 我的频道列表 -->
@@ -442,7 +442,7 @@ data() {
 </van-row>
 ```
 
-2. 使用 v-if 控制图标的显示与隐藏：
+2. 使用 `v-if` 控制图标的显示与隐藏：
 
 ```html
 <!-- 删除的图标 -->
@@ -459,14 +459,14 @@ data() {
 * 用户的频道列表中，至少要包含两个频道
 :::
 
-1. 为用户的频道 Item 项绑定点击事件处理函数，命名为 `onUserChannelClick`：
+1. 为用户的频道 `Item` 项绑定点击事件处理函数，命名为 `onUserChannelClick`：
 
 ```html
 <!-- 用户的频道 Item 项 -->
 <div class="channel-item van-hairline--surround" @click="onUserChannelClick(item)"></div>
 ```
 
-2. 在 methods 中声明 `onUserChannelClick` 方法：
+2. 在 `methods` 中声明 `onUserChannelClick` 方法：
 
 ```js
 methods: {
@@ -559,7 +559,7 @@ removeChannel(channel) {
 
 ## 6.5 弹出层关闭时重置编辑的状态
 
-1. 监听 <van-popup> 弹出层关闭完成时的 closed 事件，直接将 isDel 设置为 false 即可：
+1. 监听 `<van-popup>` 弹出层关闭完成时的 `closed` 事件，直接将 `isDel` 设置为 `false` 即可：
 
 ```html
 <!-- 监听 closed 事件 -->
@@ -568,7 +568,7 @@ removeChannel(channel) {
 
 ## 6.6 实现频道的点击联动效果
 
-1. 在点击用户频道的 Item 项时，把索引值传递到点击事件的处理函数中：
+1. 在点击用户频道的 `Item` 项时，把索引值传递到点击事件的处理函数中：
 
 ```html
 <!-- 我的频道列表 -->
@@ -584,7 +584,7 @@ removeChannel(channel) {
 </van-row>
 ```
 
-2. 改造 onUserChannelClick 方法，通过形参 index 接收点击项的索引值：
+2. 改造 `onUserChannelClick` 方法，通过形参 `index` 接收点击项的索引值：
 
 ```js
 // 从用户频道列表中，移除指定 id 的频道
@@ -610,20 +610,20 @@ onUserChannelClick(channel, index) {
 
 ## 6.7 分支的合并与提交
 
-1. 将修改过后的文件加入暂存区，并进行本地的 commit 提交：
+1. 将修改过后的文件加入暂存区，并进行本地的 `commit` 提交：
 
 ```bash
 git add .
 git commit -m "实现了频道管理"
 ```
 
-2. 将本地的 channel 分支首次推送到 Gitee 仓库中：
+2. 将本地的 channel 分支首次推送到 `Gitee` 仓库中：
 
 ```bash
 git push -u origin channel
 ```
 
-3. 将本地的 channel 分支合并到本地的 master 主分支，并推送 master 分支到 Gitee 仓库：
+3. 将本地的 `channel` 分支合并到本地的 `master` 主分支，并推送 `master` 分支到 `Gitee` 仓库：
 
 ```bash
 git checkout master
@@ -631,13 +631,13 @@ git merge channel
 git push
 ```
 
-4. 删除本地的 channel 子分支：
+4. 删除本地的 `channel` 子分支：
 
 ```bash
 git branch -d channel
 ```
 
-5. 基于 master 主分支，新建 search 分支，准备开发文章搜索相关的功能：
+5. 基于 `master` 主分支，新建 `search` 分支，准备开发文章搜索相关的功能：
 
 ```bash
 git checkout -b search
