@@ -35,5 +35,11 @@ module.exports = [
     path: '/channel-manager/',
     sidebarDepth: 3,
     children: [ /* ... */],
+  },
+  {
+    title: '7.文章搜索',
+    path: '/article-search/',
+    sidebarDepth: 3,
+    children: [ /* ... */],
   }
 ]
