@@ -41,9 +41,16 @@ module.exports = [
     path: '/article-search/',
     sidebarDepth: 3,
     children: [ /* ... */],
-  }, {
+  }, 
+  {
     title: "8.文章详情",
     path: '/article-details/',
+    sidebarDepth: 3,
+    children: [ /* ... */],
+  },
+  {
+    title: "9.文章评论",
+    path: '/article-comment/',
     sidebarDepth: 3,
     children: [ /* ... */],
   }
