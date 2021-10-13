@@ -53,5 +53,11 @@ module.exports = [
     path: '/article-comment/',
     sidebarDepth: 3,
     children: [ /* ... */],
+  },
+  {
+    title: "10.文章评论",
+    path: '/profile/',
+    sidebarDepth: 3,
+    children: [ /* ... */],
   }
 ]
