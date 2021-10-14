@@ -71,9 +71,16 @@ module.exports = [
     path: '/page-permission-control/',
     sidebarDepth: 3,
     children: [ /* ... */],
-  }, {
+  },
+  {
     title: "13.Token 续签",
     path: '/token-renew/',
+    sidebarDepth: 3,
+    children: [ /* ... */],
+  },
+  {
+    title: "14.项目优化",
+    path: '/project-optimization/',
     sidebarDepth: 3,
     children: [ /* ... */],
   }
