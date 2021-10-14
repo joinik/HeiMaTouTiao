@@ -83,5 +83,11 @@ module.exports = [
     path: '/project-optimization/',
     sidebarDepth: 3,
     children: [ /* ... */],
+  },
+  {
+    title: "15.打包发布",
+    path: '/build-package/',
+    sidebarDepth: 3,
+    children: [ /* ... */],
   }
 ]
