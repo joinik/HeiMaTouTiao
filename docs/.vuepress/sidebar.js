@@ -65,5 +65,10 @@ module.exports = [
     path: '/chat/',
     sidebarDepth: 3,
     children: [ /* ... */],
+  }, {
+    title: "12.页面权限控制",
+    path: '/page-permission-control/',
+    sidebarDepth: 3,
+    children: [ /* ... */],
   }
 ]
