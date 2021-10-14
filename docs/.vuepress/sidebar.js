@@ -59,5 +59,11 @@ module.exports = [
     path: '/profile/',
     sidebarDepth: 3,
     children: [ /* ... */],
+  },
+  {
+    title: "11.小思同学",
+    path: '/chat/',
+    sidebarDepth: 3,
+    children: [ /* ... */],
   }
 ]
