@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import Login from '@/views/Login'
-import Main from '@/views/Main'
-import Home from '@/views/Home'
-import User from '@/views/User'
+import Login from '@/views/Login/Login.vue'
+import Main from '@/views/Main/Main.vue'
+import Home from '@/views/Home/Home.vue'
+import User from '@/views/User/User.vue'
 
 Vue.use(VueRouter)
 

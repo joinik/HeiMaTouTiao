@@ -23,7 +23,7 @@
 
 <script>
 // 导入ArtcleItem
-import ArticleItem from '@/components/ArticleItem'
+import ArticleItem from '@/components/ArticleItem/ArticleItem.vue'
 // 按需导入 API 接口
 import { getArtListAPI } from '@/API/homeAPI'
 

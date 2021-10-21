@@ -2,6 +2,7 @@
 import axios from 'axios'
 import { Toast } from 'vant'
 import store from '@/store'
+import router from '../router'
 // 调用axios.create()方法，创建 axios 的实例对象
 const instance = axios.create({
   //  请求根路径
@@ -29,13 +30,19 @@ instance.interceptors.request.use(config => {
 })
 
 // 响应拦截器
-instance.interceptors.response.use(
-  response => {
+instance.interceptors.response.use(response => {
+  // 隐藏 loading 效果
+  Toast.clear()
+  console.log('响应:', response)
+  return response
+}, error => {
+  // console.dir(error.response)
+  if (error.response.data.message === '用户未认证') {
     // 隐藏 loading 效果
     Toast.clear()
-    return response
-  }, error => {
-    return Promise.reject(error)
+    router.push('/login')
   }
+  return Promise.reject(error)
+}
 )
 export default instance

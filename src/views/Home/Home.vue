@@ -76,7 +76,7 @@
 
 <script>
 // 导入ArticleList组件
-import ArticleList from '@/components/ArticleList'
+import ArticleList from '@/components/ArticleList/ArticleList.vue'
 // 按需导入 API 接口
 import { getUserChannelAPI, getAllChannelAPI } from '@/API/homeAPI'
 export default {
