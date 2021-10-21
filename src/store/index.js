@@ -29,6 +29,11 @@ export default new Vuex.Store({
     // 将 state 持久化存储到本地
     saveStateToStorage (state) {
       localStorage.setItem('state', JSON.stringify(state))
+    },
+    // 清除 token 和 localstoreage中的token
+    cleanState (state) {
+      state.tokenInfo = {}
+      window.localStorage.setItem('state', '{}')
     }
   },
   actions: {
