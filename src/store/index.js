@@ -6,7 +6,10 @@ Vue.use(Vuex)
 const stateStr = localStorage.getItem('state')
 // 初始的 state 对象
 const initState = {
-  tokenInfo: {}
+  tokenInfo: {
+    token: '',
+    refresh_token: ''
+  }
 }
 if (stateStr) {
   // 加载本地的数据
@@ -33,7 +36,7 @@ export default new Vuex.Store({
     // 清除 token 和 localstoreage中的token
     cleanState (state) {
       state.tokenInfo = {}
-      window.localStorage.setItem('state', '{}')
+      window.localStorage.setItem('state', '')
     }
   },
   actions: {
