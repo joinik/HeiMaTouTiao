@@ -41,7 +41,7 @@ instance.interceptors.response.use(response => {
   // 1.从 vuex 中获取 tokenInfo 对象， 格式为：{token, refresh_token}
   const tokenInfo = store.state.tokenInfo.tokenInfo
   // 2. 判断是否为 token 过期
-  if (error.response && error.response.status === 401 || tokenInfo.refresh_token) {
+  if ((error.response && error.response.status === 401) || tokenInfo.refresh_token) {
     try {
       // 3.1 TODO: 发起请求，根据 refresh_token 重新请求一个有效的新 token
       const { data: res } = await exchangeTokenAPI(tokenInfo.refresh_token)
