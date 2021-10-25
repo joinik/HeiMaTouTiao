@@ -6,6 +6,7 @@ import Main from '@/views/Main/Main.vue'
 import Home from '@/views/Home/Home.vue'
 import User from '@/views/User/User.vue'
 import Search from '@/views/Search/Search.vue'
+import SearchResult from '@/views/SearchResult/SearchResult.vue'
 
 Vue.use(VueRouter)
 
@@ -29,7 +30,9 @@ const routes = [
       // 搜索组件的路由规则
       { path: '/search', component: Search, name: 'search' }
     ]
-  }
+  },
+  // 搜索结果页
+  { path: '/search/:kw', component: SearchResult, name: 'search-result' }
 ]
 
 const router = new VueRouter({
