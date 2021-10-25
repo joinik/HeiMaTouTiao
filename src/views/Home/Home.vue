@@ -18,7 +18,8 @@
         <article-list :channel-id="item.id"></article-list>
       </van-tab>
     </van-tabs>
-    <!-- 频道管理的小图标 -->
+    <!-- 频道管理的小
+    图标-->
     <van-icon name="plus" size="16" class="plus" @click="show = true" />
     <!-- 频道管理的弹出层 -->
     <van-popup v-model="show" :close-on-click-overlay="false">
@@ -96,6 +97,18 @@ export default {
       allChannel: []
     }
   },
+  computed: {
+    // 更多频道的数据
+    moreChannels () {
+      // 1. 对数组进行 filter 过滤，返回的是符合条件的新数组
+      return this.allChannel.filter(item => {
+        // 判断当前循环项，是否在 “我的频道” 列表之中
+        const index = this.userChannel.findIndex(x => x.id === item.id)
+        // 如果不在，则 return true，表示需要把这一项存储到返回的新数组之中
+        if (index === -1) return true
+      })
+    }
+  },
   methods: {
     async initUserChannel () {
       // 1. 调用 API 接口
@@ -123,24 +136,11 @@ export default {
 
     // 请求所有的频道列表数据
     this.initAllChannel()
-  },
-  computed: {
-    // 更多频道的数据
-    moreChannels () {
-      // 1. 对数组进行 filter 过滤，返回的是符合条件的新数组
-      return this.allChannel.filter(item => {
-        // 判断当前循环项，是否在 “我的频道” 列表之中
-        const index = this.userChannel.findIndex(x => x.id === item.id)
-        // 如果不在，则 return true，表示需要把这一项存储到返回的新数组之中
-        if (index === -1) return true
-      })
-    }
   }
 }
 </script>
 
 <style lang="less" scoped>
-/*  */
 .home {
   padding-top: 46px;
   padding-bottom: 50px;
