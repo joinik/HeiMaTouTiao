@@ -15,7 +15,7 @@
     </div>
     <!-- 搜索建议 -->
     <div class="sugg-list">
-      <div class="sugg-item" v-for="(item, i) in suggestList" :key="i">{{ item }}</div>
+      <div class="sugg-item" v-for="(item, i) in suggestList" :key="i" v-html="item"></div>
     </div>
   </div>
 </template>
@@ -45,7 +45,6 @@ export default {
       if (this.kw.length === 0) {
         // 清空搜索建议的列表数据
         this.suggestList = []
-
         return
       }
 
@@ -61,8 +60,22 @@ export default {
       const { data: res } = await getSuggestListAPI(this.kw)
       if (res.message === 'OK') {
         // 为 suggestList 数据赋值
+        this.hlightKeyWords(res.data.options)
         this.suggestList = res.data.options
       }
+    },
+    // 高亮搜索关键词的方法，形参中的arr是搜索建议的数组
+    hlightKeyWords (arr) {
+      // 1.根据用户输入的 kw,动态创建正则表达式
+      const reg = new RegExp(this.kw, 'ig');
+
+      // 循环数组中的每一项
+      arr.forEach((item, index) => {
+        arr[index] = item.replace(reg, (val)=>{
+          return `<span style="color: red; font-weight: bold;">${val}</span>`
+        })
+        
+      })
     }
   },
   mounted () {
