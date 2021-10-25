@@ -34,3 +34,14 @@ export const reportArticleAPI = (target, type) => {
 export const getAllChannelAPI = () => {
   return request.get('/v1_0/channels')
 }
+
+/**
+ * 更新用户的频道
+ * @param { Array<Object> } channels
+ * @returns
+ */
+export const updateUserChannelAPI = (channels) => {
+  return request.put('/v1_0/user/channels', {
+    channels
+  })
+}

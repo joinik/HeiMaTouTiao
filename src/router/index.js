@@ -5,6 +5,7 @@ import Login from '@/views/Login/Login.vue'
 import Main from '@/views/Main/Main.vue'
 import Home from '@/views/Home/Home.vue'
 import User from '@/views/User/User.vue'
+import Search from '@/views/Search/Search.vue'
 
 Vue.use(VueRouter)
 
@@ -23,7 +24,10 @@ const routes = [
     children: [
       // path 为"空字符串"的子路由规则，叫做"默认子路由"
       { path: '', component: Home, name: 'home' },
-      { path: '/user', component: User, name: 'user' }
+      // 用户
+      { path: '/user', component: User, name: 'user' },
+      // 搜索组件的路由规则
+      { path: '/search', component: Search, name: 'search' }
     ]
   }
 ]

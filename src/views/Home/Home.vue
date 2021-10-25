@@ -8,7 +8,7 @@
       </template>
       <!-- 右侧的插槽 -->
       <template #right>
-        <van-icon name="search" color="white" size="18" />
+        <van-icon name="search" color="white" size="18" @click="$router.push('/search')" />
       </template>
     </van-nav-bar>
     <!-- 频道列表的标签页 -->
@@ -38,15 +38,22 @@
             <div class="channel-title">
               <div>
                 <span class="title-bold">已添加频道：</span>
-                <span class="title-gray">点击进入频道</span>
+                <span class="title-gray">{{ isDel ? '点击移除频道' : '点击进入频道' }}</span>
               </div>
-              <span class="btn-edit">编辑</span>
+              <span class="btn-edit" @click="isDel = !isDel">{{ isDel ? '完成' : '编辑' }}</span>
             </div>
             <!-- 我的频道列表 -->
             <van-row type="flex">
               <van-col span="6" v-for="item in userChannel" :key="item.id">
                 <!-- 用户的频道 Item 项 -->
-                <div class="channel-item van-hairline--surround">{{ item.name }}</div>
+                <div class="channel-item van-hairline--surround" @click="removeUserChannel(item)">
+                  {{ item.name }}
+                  <van-badge color="transparent" class="cross-badge" v-if="isDel">
+                    <template #content>
+                      <van-icon name="cross" class="badge-icon" color="#cfcfcf" size="12" />
+                    </template>
+                  </van-badge>
+                </div>
               </van-col>
             </van-row>
           </div>
@@ -65,7 +72,10 @@
             <!-- 更多频道列表 -->
             <van-row type="flex">
               <van-col span="6" v-for="item in moreChannels" :key="item.id">
-                <div class="channel-item van-hairline--surround">{{ item.name }}</div>
+                <div
+                  class="channel-item van-hairline--surround"
+                  @click="addChannel(item)"
+                >{{ item.name }}</div>
               </van-col>
             </van-row>
           </div>
@@ -79,7 +89,7 @@
 // 导入ArticleList组件
 import ArticleList from '@/components/ArticleList/ArticleList.vue'
 // 按需导入 API 接口
-import { getUserChannelAPI, getAllChannelAPI } from '@/API/homeAPI'
+import { getUserChannelAPI, getAllChannelAPI, updateUserChannelAPI } from '@/API/homeAPI'
 export default {
   name: 'Home',
   components: {
@@ -94,7 +104,8 @@ export default {
       // 控制频道管理弹出层的展示与隐藏
       show: false,
       // 所有的频道列表数据
-      allChannel: []
+      allChannel: [],
+      isDel: false
     }
   },
   computed: {
@@ -120,6 +131,7 @@ export default {
         this.userChannel = res.data.channels
       }
     },
+
     // 获取所有频道的列表数据
     async initAllChannel () {
       const { data: res } = await getAllChannelAPI()
@@ -127,8 +139,45 @@ export default {
         // 将请求到的数据，转存到 allChannel 中
         this.allChannel = res.data.channels
       }
-    }
+    },
 
+    // 更新用户频道
+    async updateUserChannel () {
+      // 遍历用户频道  对每一个对象进行操作
+      const channels = this.userChannel.filter(item => item.name !== '推荐').map((item, index) => {
+        return {
+          id: item.id,
+          seq: index + 1
+        }
+      })
+
+      // 看 channels = {id:  seq:}
+      // console.log(channels)
+      // console.log('用户频道', this.userChannel)
+
+      const { data: res } = await updateUserChannelAPI(channels)
+
+      if (res.message === 'OK') {
+        // console.log(res)
+        this.$notify({ type: 'success', message: '更新成功', duration: 1000 })
+      }
+    },
+
+    // 添加频道
+    addChannel (item) {
+      this.userChannel.push(item)
+      // 定义一个方法 专门用于 更新用户频道
+      this.updateUserChannel()
+    },
+
+    // 移除 用户的 频道
+    removeUserChannel (item) {
+      if (this.isDel) {
+        this.userChannel = this.userChannel.filter(x => x.id !== item.id)
+        // 定义一个方法 专门用于 更新用户频道
+        this.updateUserChannel()
+      }
+    }
   },
   created () {
     // 请求用户的频道列表数据
