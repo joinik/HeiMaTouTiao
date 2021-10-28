@@ -1,5 +1,5 @@
 <template>
-  <div class="article-item">
+  <div class="article-item" @click="$router.push('/article/' + artId)">
     <van-cell>
       <!-- 标题区域的插槽 -->
       <template #title>
@@ -25,7 +25,7 @@
         <div class="label-box">
           <span>{{ article.aut_name }} &nbsp;&nbsp; {{ article.comm_count }}评论 &nbsp;&nbsp; {{ article.pubdate | dateFormat }}</span>
           <!-- 关闭按钮 -->
-          <van-icon name="cross" @click.stop="show = true" />
+          <van-icon name="cross" @click.stop="show = true" v-if="closable"  />
         </div>
       </template>
     </van-cell>
@@ -76,6 +76,12 @@ export default {
     article: {
       type: Object, // 数据类型
       required: true // 必填项
+    },
+    // 是否展示关闭按钮
+    closable: {
+      type: Boolean,
+      // 默认值为 true，表示展示关闭按钮
+      default: true
     }
   },
   data () {

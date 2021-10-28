@@ -52,7 +52,7 @@ import { getSuggestListAPI } from '@/API/searchAPI.js'
 
 export default {
   name: 'Search',
-  data() {
+  data () {
     return {
       // 搜索关键词
       kw: '',
@@ -66,13 +66,13 @@ export default {
   },
   watch: {
     // 监视历史记录的变化
-    history(newVal) {
+    history (newVal) {
       // 持久化存储到本地
       localStorage.setItem('history', JSON.stringify(newVal))
     }
   },
   methods: {
-    onInput() {
+    onInput () {
       // 2. 清除上次的延时器
       clearTimeout(this.timerId)
 
@@ -90,7 +90,7 @@ export default {
       }, 500)
     },
     // 请求搜索建议列表数据的方法
-    async initSuggestList() {
+    async initSuggestList () {
       // 调用 API 接口
       const { data: res } = await getSuggestListAPI(this.kw)
       if (res.message === 'OK') {
@@ -104,7 +104,7 @@ export default {
       }
     },
     // 高亮搜索关键词的方法，形参中的arr是搜索建议的数组
-    hlightKeyWords(arr) {
+    hlightKeyWords (arr) {
       // 1.根据用户输入的 kw,动态创建正则表达式
       const reg = new RegExp(this.kw, 'ig')
 
@@ -115,8 +115,8 @@ export default {
         })
       })
     },
-    //跳转到搜索结果页
-    gotoSearchResult(e) {
+    // 跳转到搜索结果页
+    gotoSearchResult (e) {
       // e.currentTarget 是当正在触发事件的那个元素
       // console.log(e.currentTarget.innerText)
 
@@ -127,7 +127,7 @@ export default {
       this.$router.push('/search/' + kw)
     }
   },
-  mounted() {
+  mounted () {
     const ipt = document.querySelector('input[type=search]')
     ipt && ipt.focus()
   }
