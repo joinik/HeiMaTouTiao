@@ -4,7 +4,7 @@
     <van-nav-bar fixed title="文章详情" left-arrow @click-left="$router.back()" />
 
     <!-- 文章信息区域 -->
-    <div class="article-container">
+    <div class="article-container" v-if="article">
       <!-- 文章标题 -->
       <h1 class="art-title">{{ article.title }}</h1>
 
@@ -17,8 +17,8 @@
         <template #default>
           <div>
             <!-- 是否关注了作者 -->
-            <van-button type="info" size="mini" v-if="article.is_followed">已关注</van-button>
-            <van-button icon="plus" type="info" size="mini" plain v-else>关注</van-button>
+            <van-button type="info" size="mini" v-if="article.is_followed" @click="setUnfollow">已关注</van-button>
+            <van-button icon="plus" type="info" size="mini" plain v-else @click="setFollow">关注</van-button>
           </div>
         </template>
       </van-cell>
@@ -34,8 +34,8 @@
 
       <!-- 点赞 -->
       <div class="like-box">
-        <van-button icon="good-job" type="danger" size="small" v-if="article.attitude === 1">已点赞</van-button>
-        <van-button icon="good-job-o" type="danger" plain size="small" v-else>点赞</van-button>
+        <van-button icon="good-job" type="danger" size="small" v-if="article.attitude === 1" @click="setDislike">已点赞</van-button>
+        <van-button icon="good-job-o" type="danger" plain size="small" v-else @click="setLike">点赞</van-button>
       </div>
     </div>
   </div>
@@ -43,7 +43,7 @@
 
 <script>
 // 按需导入 API 接口
-import { getArticleDetailAPI } from '@/API/articleAPI.js'
+import { getArticleDetailAPI, followUserAPI, unfollowUserAPI, addLikeAPI, delLikeAPI } from '../../API/articleAPI'
 export default {
   name: 'ArticleDetail',
   // props 中的 id 是文章的 id（已经调用了大数的 .toString() 方法）
@@ -62,10 +62,58 @@ export default {
       if (res.message === 'OK') {
         // 2. 转存数据
         this.article = res.data
+
+        console.log(this.article)
+      }
+    },
+    // 关注作者
+    async setFollow () {
+      // 调用关注作者的 API 接口
+      const { data: res } = await followUserAPI(this.article.aut_id.toString())
+      if (res.message === 'OK') {
+        // 提示用户成功
+        this.$toast.success('关注成功！')
+        // 手动更改关注的状态
+        this.article.is_followed = true
+      }
+    },
+    async setUnfollow () {
+      // 1. 调用 API 接口
+      const res = await unfollowUserAPI(this.article.aut_id.toString())
+
+      // 2. 判断响应的状态码
+      if (res.status === 204) {
+        // 2.1 提示用户
+        this.$toast.success('取关成功！')
+        // 2.2 手动更改关注的状态
+        this.article.is_followed = false
+      }
+    },
+    // 文章点赞
+    async setLike () {
+      // 调用 API 接口
+      const { data: res } = await addLikeAPI(this.id)
+      if (res.message === 'OK') {
+        // 提示用户
+        this.$toast.success('点赞成功！')
+        // 手动变更点赞的状态
+        this.article.attitude = 1
+      }
+    },
+    // 取消点赞
+    async setDislike () {
+      // 调用 API 接口
+      const res = await delLikeAPI(this.id)
+      if (res.status === 204) {
+        // 提示用户
+        this.$toast.success('取消点赞成功！')
+        // 手动变更点赞的状态
+        this.article.attitude = -1
       }
     }
   },
   created () {
+    console.log(this.article)
     this.initArticle()
   }
 }
