@@ -34,24 +34,42 @@
 
       <!-- 点赞 -->
       <div class="like-box">
-        <van-button icon="good-job" type="danger" size="small" v-if="article.attitude === 1" @click="setDislike">已点赞</van-button>
+        <van-button
+          icon="good-job"
+          type="danger"
+          size="small"
+          v-if="article.attitude === 1"
+          @click="setDislike"
+        >已点赞</van-button>
         <van-button icon="good-job-o" type="danger" plain size="small" v-else @click="setLike">点赞</van-button>
       </div>
     </div>
+    <!-- 文章的评论组件 -->
+    <art-cmt :art-id="id"></art-cmt>
   </div>
 </template>
 
 <script>
 // 按需导入 API 接口
 import { getArticleDetailAPI, followUserAPI, unfollowUserAPI, addLikeAPI, delLikeAPI } from '../../API/articleAPI'
+// 导入文章的评论组件
+import ArtCmt from '@/components/ArtCmt/ArtCmt.vue'
+
 export default {
   name: 'ArticleDetail',
+  components: {
+    ArtCmt
+  },
   // props 中的 id 是文章的 id（已经调用了大数的 .toString() 方法）
   props: ['id'],
   data () {
     return {
       // 文章的信息对象
-      article: null
+      article: null,
+      // 文章的评论列表数据
+      cmtlist: [],
+      // 偏移量
+      offset: null
     }
   },
   methods: {
