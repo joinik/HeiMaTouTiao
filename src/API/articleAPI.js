@@ -42,3 +42,11 @@ export const getCmtListAPI = (artId, offset) => {
     }
   })
 }
+
+// 发表评论的 API（形参中的 artId 是文章的 id；content 是评论的内容）
+export const pubCommentAPI = (artId, content) => {
+  return request.post('/v1_0/comments', {
+    target: artId,
+    content
+  })
+}
