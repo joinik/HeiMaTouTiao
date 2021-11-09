@@ -43,6 +43,18 @@ export default {
     }
   },
   props: ['kw'],
+  watch: {
+    kw () {
+      // 1. 重置关键数据
+      this.page = 1
+      this.artList = []
+      this.loading = false
+      this.finished = false
+
+      // 2. 请求数据
+      this.initSearchResult()
+    }
+  },
   methods: {
     async initSearchList () {
       // console.log(this.kw, this.page)

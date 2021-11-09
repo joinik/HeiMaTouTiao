@@ -55,6 +55,9 @@ import { getArticleDetailAPI, followUserAPI, unfollowUserAPI, addLikeAPI, delLik
 // 导入文章的评论组件
 import ArtCmt from '@/components/ArtCmt/ArtCmt.vue'
 
+// 导入 highlight.js 模块
+import hljs from 'highlight.js'
+
 export default {
   name: 'ArticleDetail',
   components: {
@@ -70,6 +73,14 @@ export default {
       cmtlist: [],
       // 偏移量
       offset: null
+    }
+  },
+  watch: {
+    id () {
+      // 只要 id 值发生了变化，就清空旧的文章信息
+      this.article = null
+      // 并重新获取文章的详情数据
+      this.initArticle()
     }
   },
   methods: {
@@ -131,8 +142,16 @@ export default {
     }
   },
   created () {
-    console.log(this.article)
+    // console.log(this.article)
     this.initArticle()
+  },
+  // 1. 当组件的 DOM 更新完毕之后
+  updated () {
+    // 2. 判断是否有文章的内容
+    if (this.article) {
+      // 3. 对文章的内容进行高亮处理
+      hljs.highlightAll()
+    }
   }
 }
 </script>

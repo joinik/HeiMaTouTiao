@@ -75,6 +75,11 @@ export default {
     }
   },
   created () {
+    // this.getUserInfo()
+  },
+  // 被激活了
+  activated () {
+  // 只要组件被激活了，就重新初始化用户的信息
     this.getUserInfo()
   }
 }

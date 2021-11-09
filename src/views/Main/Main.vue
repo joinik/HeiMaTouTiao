@@ -1,7 +1,10 @@
 <template>
   <div class="main">
     <!-- Home 和 User 的路由占位符 -->
-    <router-view></router-view>
+     <keep-alive>
+      <router-view></router-view>
+     </keep-alive>
+
      <!-- 底部的 TabBar -->
     <van-tabbar route>
       <van-tabbar-item icon="home-o" to="/">首页</van-tabbar-item>

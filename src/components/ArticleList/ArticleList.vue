@@ -50,7 +50,7 @@ export default {
       //   每当触发 List 组件的上拉加载更多时，List 组件会自动把 loading 设为 true
       //   每当下一页的数据请求回来以后，需要程序员手动的把 loading 设为 false，
       //   否则：再次触发上拉加载更多时，不会发起请求！！
-      loading: false,
+      loading: true,
 
       // finished 表示所有数据是否加载完毕
       //    false 表示还有下一页的数据

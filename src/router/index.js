@@ -38,7 +38,8 @@ const routes = [
       {
         path: '/',
         component: Home,
-        name: 'home'
+        name: 'home',
+        meta: { isRecord: true, top: 0 }
       },
       {
         path: '/user',
@@ -79,6 +80,17 @@ router.beforeEach((to, from, next) => {
     // 2.2 访问的是没有权限的页面
     console.log('访问不需要权限的页面')
     next()
+  }
+})
+
+// 全局后置钩子
+router.afterEach((to, from) => {
+  // 如果当前的路由的元信息中，isRecord 的值为 true
+  if (to.meta.isRecord) {
+    setTimeout(() => {
+      // 则把元信息中的 top 值设为滚动条纵向滚动的位置
+      window.scrollTo(0, to.meta.top)
+    }, 0)
   }
 })
 export default router

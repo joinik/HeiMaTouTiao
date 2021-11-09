@@ -185,6 +185,11 @@ export default {
 
     // 请求所有的频道列表数据
     this.initAllChannel()
+  },
+  beforeRouteLeave (to, from, next) {
+    console.log('触发了 Home 组件的 beforeRouteLeave')
+    from.meta.top = window.scrollY
+    next()
   }
 }
 </script>
