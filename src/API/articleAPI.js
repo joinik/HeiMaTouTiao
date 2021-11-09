@@ -1,35 +1,60 @@
 import request from '@/utils/request.js'
 
-// 获取文章详情的 API（形参中的 id 是文章的 id）
+/**
+ * 获取文章详情
+ * @param { String } id 文章ID
+ * @returns
+ */
 export const getArticleDetailAPI = id => {
   return request.get(`/v1_0/articles/${id}`)
 }
 
-// 关注用户的 API（形参中的 userId 是文字作者的 id）
+/**
+ * 关注用户
+ * @param { String } userId 用户ID
+ * @returns
+ */
 export const followUserAPI = userId => {
   return request.post('/v1_0/user/followings', {
     target: userId
   })
 }
 
-// 取消关注用户的 API
+/**
+ * 取消关注用户
+  * @param { String } userId 用户ID
+ * @returns
+ */
 export const unfollowUserAPI = userId => {
   return request.delete(`/v1_0/user/followings/${userId}`)
 }
 
-// 点赞的 API（形参中的 artId 是文章的 Id）
+/**
+ * 点赞
+ * @param {*} artId 文章id
+ * @returns
+ */
 export const addLikeAPI = artId => {
   return request.post('/v1_0/article/likings', {
     target: artId
   })
 }
 
-// 取消点赞的 API（形参中的 artId 是文章的 Id）
+/**
+ * 取消点赞
+ * @param {*} artId 文章id
+ * @returns
+ */
 export const delLikeAPI = artId => {
   return request.delete(`/v1_0/article/likings/${artId}`)
 }
 
-// 获取文章下评论数据的 API
+/**
+ * 获取文章下评论数据
+ * @param {*} artId 文章的 Id
+ * @param {*} offset 获取评论数据的偏移量
+ * @returns
+ */
 export const getCmtListAPI = (artId, offset) => {
   return request.get('/v1_0/comments', {
     params: {
@@ -43,7 +68,33 @@ export const getCmtListAPI = (artId, offset) => {
   })
 }
 
-// 发表评论的 API（形参中的 artId 是文章的 id；content 是评论的内容）
+/**
+ * 评论点赞
+ * @param { String } cmtId
+ * @returns
+ */
+
+export const addLikeCmtAPI = cmtId => {
+  return request.post('/v1_0/comment/likings', {
+    target: cmtId
+  })
+}
+
+/**
+ * 评论取消点赞
+ * @param { String } cmtId
+ * @returns
+ */
+export const delLikeCmtAPI = cmtId => {
+  return request.delete(`/v1_0/comment/likings/${cmtId}`)
+}
+
+/**
+ * 表评论
+ * @param {*} artId 文章id
+ * @param {*} content 内容
+ * @returns
+ */
 export const pubCommentAPI = (artId, content) => {
   return request.post('/v1_0/comments', {
     target: artId,

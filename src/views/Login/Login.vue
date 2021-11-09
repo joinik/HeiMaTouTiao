@@ -67,9 +67,14 @@ export default {
         // 3.把登录成功的解构，存储到 vuex 中
         this.updateTokenInfo(res.data)
         // 4. 登录成功后，跳转到主页
-        this.$router.push('/')
+        this.$router.push(this.$route.query.pre)
       }
     }
+  },
+  created () {
+    console.log(this.$route.query)
+    console.log(this.$route.path)
+    console.log(this.$route.fullPath)
   }
 }
 </script>

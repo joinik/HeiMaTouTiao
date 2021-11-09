@@ -25,7 +25,7 @@
 // 导入ArtcleItem
 import ArticleItem from '@/components/ArticleItem/ArticleItem.vue'
 // 按需导入 API 接口
-import { getArtListAPI } from '@/API/homeAPI'
+import { getArticleListAPI } from '@/API/homeAPI'
 
 export default {
   // 大驼峰命名法：每个单词的首字母大写
@@ -63,7 +63,7 @@ export default {
   methods: {
     async initArtList (isRefresh) {
       // 请求 API 接口
-      const { data: res } = await getArtListAPI(this.channelId, this.timestamp)
+      const { data: res } = await getArticleListAPI(this.channelId, this.timestamp)
       if (res.message === 'OK') {
         // 为时间戳重新赋值
         this.timestamp = res.data.pre_timestamp
