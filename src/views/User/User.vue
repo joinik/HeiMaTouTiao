@@ -34,8 +34,14 @@
 
     <!-- 操作面板 -->
     <van-cell-group class="action-card">
-      <van-cell icon="edit" title="编辑资料" :data-id="userInfo.id" is-link @click="$router.push({name: 'user-edit'})" />
-      <van-cell icon="chat-o" title="小思同学" is-link />
+      <van-cell
+        icon="edit"
+        title="编辑资料"
+        :data-id="userInfo.id"
+        is-link
+        @click="$router.push({ name: 'user-edit' })"
+      />
+      <van-cell icon="chat-o" title="小思同学" is-link to="/chat" />
       <van-cell icon="warning-o" title="退出登录" :data-id="userInfo.id" is-link @click="logout" />
     </van-cell-group>
   </div>
@@ -79,7 +85,7 @@ export default {
   },
   // 被激活了
   activated () {
-  // 只要组件被激活了，就重新初始化用户的信息
+    // 只要组件被激活了，就重新初始化用户的信息
     this.getUserInfo()
   }
 }

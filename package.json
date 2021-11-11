@@ -51,6 +51,7 @@
     "dayjs": "^1.10.7",
     "highlight.js": "^10.6.0",
     "popmotion": "^9.3.5",
+    "socket.io-client": "^4.0.0",
     "vant": "^2.12.12",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",

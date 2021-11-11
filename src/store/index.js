@@ -1,8 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-// console.log('本地获取到的Token信息', initState)
-
 import { getUserInfoAPI, getUserProfileAPI } from '../API/userAPI'
 
 Vue.use(Vuex)
@@ -33,6 +31,19 @@ export default new Vuex.Store({
     tokenInfo: initState.tokenInfo,
     userInfo: initState.userInfo,
     userProfile: initState.userProfile
+  },
+  getters: {
+    userAvatar (state) {
+      // 默认的头像地址
+      let imgSrc = 'https://img.yzcdn.cn/vant/cat.jpeg'
+
+      // 如果用户信息对象中包含 photo属性的值，则为imgsrc重新赋值
+      if (state.userInfo.photo) {
+        imgSrc = state.userInfo.photo
+      }
+
+      return imgSrc
+    }
   },
   mutations: {
     updateTokenInfo (state, payload) {
@@ -87,6 +98,7 @@ export default new Vuex.Store({
       }
     }
   },
+
   modules: {
   }
 })
